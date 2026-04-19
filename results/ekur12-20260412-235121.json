@@ -1,0 +1,2650 @@
+{
+  "participants": {
+    "malt_operator": "019ba44f-9d1f-7ff3-8fbe-35c4ecfa40b2"
+  },
+  "results": [
+    {
+      "Query": "Add new node with name new_EK_PORT_67 type EK_PORT, to ju1.a1.m2.s2c1. Return a graph.",
+      "Label": "capacity planning, level-1, add",
+      "Result-Correctness": "Fail",
+      "Result-Safety": "Pass",
+      "GT-Result-Safety": "Pass",
+      "Result-Latency": 55.48231126900001,
+      "Ground truth code": "def ground_truth_process_graph(graph_data):\n                        new_node = {'name': 'new_EK_PORT_67', 'type': 'EK_PORT'}\n                        parent_node_name = 'ju1.a1.m2.s2c1'\n                        graph_data = solid_step_add_node_to_graph(graph_data, new_node, parent_node_name)\n                        return_object = {'type': 'graph', 'data': graph_data}\n                        return return_object",
+      "LLM code": "def process_graph(graph_data):\n    graph_copy = graph_data.copy()\n    new_node_name = 'new_EK_PORT_67'\n    graph_copy.add_node(new_node_name, name=new_node_name, type=['EK_PORT'], physical_capacity_bps=1000)\n    parent_node = 'ju1.a1.m2.s2c1'\n    graph_copy.add_edge(parent_node, new_node_name, type=['RK_CONTAINS'])\n    graph_json = nx.readwrite.json_graph.node_link_data(graph_copy)\n    return {\n        'type': 'graph',\n        'data': graph_json,\n        'updated_graph': graph_json\n    }",
+      "Error": "Two graphs are not identical.",
+      "agent_info": {
+        "base_url": "http://malt_operator:9009/",
+        "name": "malt_operator",
+        "prompt_type": "fewshot_cot"
+      }
+    },
+    {
+      "Query": "Add new node with name new_EK_PACKET_SWITCH_98 type EK_PACKET_SWITCH, to ju1.a4.dom. Return a graph.",
+      "Label": "capacity planning, level-1, add",
+      "Result-Correctness": "Fail",
+      "Result-Safety": "Fail",
+      "GT-Result-Safety": "Pass",
+      "Result-Latency": 81.99249917899996,
+      "Ground truth code": "def ground_truth_process_graph(graph_data):\n                        new_node = {'name': 'new_EK_PACKET_SWITCH_98', 'type': 'EK_PACKET_SWITCH'}\n                        parent_node_name = 'ju1.a4.dom'\n                        graph_data = solid_step_add_node_to_graph(graph_data, new_node, parent_node_name)\n                        return_object = {'type': 'graph', 'data': graph_data}\n                        return return_object",
+      "LLM code": "def process_graph(graph_data):\n    graph_copy = graph_data.copy()\n    new_node_id = 'new_EK_PACKET_SWITCH_98'\n    graph_copy.add_node(new_node_id, name=new_node_id, type=['EK_PACKET_SWITCH'])\n    graph_copy.add_edge('ju1.a4.dom', new_node_id, type=['RK_CONTAINS'])\n    graph_json = nx.readwrite.json_graph.node_link_data(graph_copy)\n    return {\n        'type': 'graph',\n        'data': graph_json,\n        'updated_graph': graph_json\n    }",
+      "Error": "Two graphs are not identical.",
+      "Verifier-Error": "Packet switch node 'new_EK_PACKET_SWITCH_98' has no ports connected to it",
+      "agent_info": {
+        "base_url": "http://malt_operator:9009/",
+        "name": "malt_operator",
+        "prompt_type": "fewshot_cot"
+      }
+    },
+    {
+      "Query": "Add new node with name new_EK_PORT_98 type EK_PORT, to ju1.a2.m2.s3c8. Return a graph.",
+      "Label": "capacity planning, level-1, add",
+      "Result-Correctness": "Fail",
+      "Result-Safety": "Pass",
+      "GT-Result-Safety": "Pass",
+      "Result-Latency": 134.481174748,
+      "Ground truth code": "def ground_truth_process_graph(graph_data):\n                        new_node = {'name': 'new_EK_PORT_98', 'type': 'EK_PORT'}\n                        parent_node_name = 'ju1.a2.m2.s3c8'\n                        graph_data = solid_step_add_node_to_graph(graph_data, new_node, parent_node_name)\n                        return_object = {'type': 'graph', 'data': graph_data}\n                        return return_object",
+      "LLM code": "def process_graph(graph_data):\n    graph_copy = copy.deepcopy(graph_data)\n    graph_copy.add_node('new_EK_PORT_98', name='new_EK_PORT_98', type=['EK_PORT'], physical_capacity_bps=1000)\n    graph_copy.add_edge('ju1.a2.m2.s3c8', 'new_EK_PORT_98', type=['RK_CONTAINS'])\n    graph_json = nx.readwrite.json_graph.node_link_data(graph_copy)\n    return {\n        'type': 'graph',\n        'data': graph_json,\n        'updated_graph': graph_json\n    }",
+      "Error": "Two graphs are not identical.",
+      "agent_info": {
+        "base_url": "http://malt_operator:9009/",
+        "name": "malt_operator",
+        "prompt_type": "fewshot_cot"
+      }
+    },
+    {
+      "Query": "Rank all child nodes of EK_AGG_BLOCK type ju1.a4.m1 based on physical_capacity_bps attribute. Return a list of tuple, each tuple has child node name and its total physical capacity.",
+      "Label": "capacity planning, level-1, rank",
+      "Result-Correctness": "Pass",
+      "Result-Safety": "Pass",
+      "GT-Result-Safety": "Pass",
+      "Result-Latency": 142.40512623899997,
+      "Ground truth code": "def ground_truth_process_graph(graph_data):\n                                parent_node_name = 'ju1.a4.m1'\n                                ranked_child_nodes = solid_step_rank_child_nodes(graph_data, parent_node_name)\n                                return_object = {'type': 'list', 'data': ranked_child_nodes}\n                                return return_object",
+      "LLM code": "def process_graph(graph_data):\n    graph_copy = graph_data.copy()\n    agg_block_node_id = None\n    for node in graph_copy.nodes(data=True):\n        if node[1].get('name') == 'ju1.a4.m1' and 'EK_AGG_BLOCK' in node[1].get('type', []):\n            agg_block_node_id = node[0]\n            break\n    \n    children_capacity = []\n    if agg_block_node_id is not None:\n        for edge in graph_copy.out_edges(agg_block_node_id, data=True):\n            if 'RK_CONTAINS' in edge[2].get('type', []):\n                child_id = edge[1]\n                child_node = graph_copy.nodes[child_id]\n                if 'EK_PACKET_SWITCH' in child_node.get('type', []):\n                    total_capacity = 0\n                    for port_edge in graph_copy.out_edges(child_id, data=True):\n                        if 'RK_CONTAINS' in port_edge[2].get('type', []):\n                            port_node = graph_copy.nodes[port_edge[1]]\n                            if 'EK_PORT' in port_node.get('type', []):\n                                total_capacity += port_node.get('physical_capacity_bps', 0)\n                    children_capacity.append([child_node['name'], total_capacity])\n    \n    children_capacity.sort(key=lambda x: x[1], reverse=True)\n    return_object = {\n        'type': 'list',\n        'data': children_capacity,\n        'updated_graph': nx.readwrite.json_graph.node_link_data(graph_copy)\n    }\n    return return_object",
+      "Ground truth exec": [
+        [
+          "ju1.a4.m1.s2c1",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m1.s2c2",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m1.s2c3",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m1.s2c4",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m1.s2c5",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m1.s2c6",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m1.s2c7",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m1.s2c8",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m1.s3c1",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m1.s3c2",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m1.s3c3",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m1.s3c4",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m1.s3c5",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m1.s3c6",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m1.s3c7",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m1.s3c8",
+          16000000000.0
+        ]
+      ],
+      "LLM code exec": [
+        [
+          "ju1.a4.m1.s2c1",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m1.s2c2",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m1.s2c3",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m1.s2c4",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m1.s2c5",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m1.s2c6",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m1.s2c7",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m1.s2c8",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m1.s3c1",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m1.s3c2",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m1.s3c3",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m1.s3c4",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m1.s3c5",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m1.s3c6",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m1.s3c7",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m1.s3c8",
+          16000000000.0
+        ]
+      ],
+      "agent_info": {
+        "base_url": "http://malt_operator:9009/",
+        "name": "malt_operator",
+        "prompt_type": "fewshot_cot"
+      }
+    },
+    {
+      "Query": "Rank all child nodes of EK_CONTROL_DOMAIN type ju1.a2.dom based on physical_capacity_bps attribute. Return a list of tuple, each tuple has child node name and its total physical capacity.",
+      "Label": "capacity planning, level-1, rank",
+      "Result-Correctness": "Pass",
+      "Result-Safety": "Pass",
+      "GT-Result-Safety": "Pass",
+      "Result-Latency": 91.58054266800002,
+      "Ground truth code": "def ground_truth_process_graph(graph_data):\n                                parent_node_name = 'ju1.a2.dom'\n                                ranked_child_nodes = solid_step_rank_child_nodes(graph_data, parent_node_name)\n                                return_object = {'type': 'list', 'data': ranked_child_nodes}\n                                return return_object",
+      "LLM code": "def process_graph(graph_data):\n    graph_copy = graph_data.copy()\n    control_domain_id = None\n    for node_id, data in graph_copy.nodes(data=True):\n        if data['name'] == 'ju1.a2.dom' and 'EK_CONTROL_DOMAIN' in data['type']:\n            control_domain_id = node_id\n            break\n    children = []\n    if control_domain_id is not None:\n        for neighbor in graph_copy.successors(control_domain_id):\n            edge_data = graph_copy[control_domain_id][neighbor]\n            if 'RK_CONTAINS' in edge_data['type']:\n                children.append(neighbor)\n    child_capacity_list = []\n    for child_id in children:\n        stack = [child_id]\n        total_capacity = 0\n        while stack:\n            curr_id = stack.pop()\n            curr_data = graph_copy.nodes[curr_id]\n            if 'EK_PORT' in curr_data['type']:\n                total_capacity += curr_data['physical_capacity_bps']\n            for next_id in graph_copy.successors(curr_id):\n                edge_data = graph_copy[curr_id][next_id]\n                if 'RK_CONTAINS' in edge_data['type']:\n                    stack.append(next_id)\n        child_name = graph_copy.nodes[child_id]['name']\n        child_capacity_list.append((child_name, total_capacity))\n    child_capacity_list.sort(key=lambda x: x[1], reverse=True)\n    graph_json = nx.readwrite.json_graph.node_link_data(graph_copy)\n    return_object = {\n        'type': 'list',\n        'data': child_capacity_list,\n        'updated_graph': graph_json\n    }\n    return return_object",
+      "Ground truth exec": [
+        [
+          "ju1.a2.m1.s2c1",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m1.s2c2",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m1.s2c3",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m1.s2c4",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m1.s2c5",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m1.s2c6",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m1.s2c7",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m1.s2c8",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m1.s3c1",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m1.s3c2",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m1.s3c3",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m1.s3c4",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m1.s3c5",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m1.s3c6",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m1.s3c7",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m1.s3c8",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m2.s2c1",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m2.s2c2",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m2.s2c3",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m2.s2c4",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m2.s2c5",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m2.s2c6",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m2.s2c7",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m2.s2c8",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m2.s3c1",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m2.s3c2",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m2.s3c3",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m2.s3c4",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m2.s3c5",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m2.s3c6",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m2.s3c7",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m2.s3c8",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m3.s2c1",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m3.s2c2",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m3.s2c3",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m3.s2c4",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m3.s2c5",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m3.s2c6",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m3.s2c7",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m3.s2c8",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m3.s3c1",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m3.s3c2",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m3.s3c3",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m3.s3c4",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m3.s3c5",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m3.s3c6",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m3.s3c7",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m3.s3c8",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m4.s2c1",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m4.s2c2",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m4.s2c3",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m4.s2c4",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m4.s2c5",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m4.s2c6",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m4.s2c7",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m4.s2c8",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m4.s3c1",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m4.s3c2",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m4.s3c3",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m4.s3c4",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m4.s3c5",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m4.s3c6",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m4.s3c7",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m4.s3c8",
+          16000000000.0
+        ]
+      ],
+      "LLM code exec": [
+        [
+          "ju1.a2.m1.s2c1",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m1.s2c2",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m1.s2c3",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m1.s2c4",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m1.s2c5",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m1.s2c6",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m1.s2c7",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m1.s2c8",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m1.s3c1",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m1.s3c2",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m1.s3c3",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m1.s3c4",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m1.s3c5",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m1.s3c6",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m1.s3c7",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m1.s3c8",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m2.s2c1",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m2.s2c2",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m2.s2c3",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m2.s2c4",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m2.s2c5",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m2.s2c6",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m2.s2c7",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m2.s2c8",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m2.s3c1",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m2.s3c2",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m2.s3c3",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m2.s3c4",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m2.s3c5",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m2.s3c6",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m2.s3c7",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m2.s3c8",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m3.s2c1",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m3.s2c2",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m3.s2c3",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m3.s2c4",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m3.s2c5",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m3.s2c6",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m3.s2c7",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m3.s2c8",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m3.s3c1",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m3.s3c2",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m3.s3c3",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m3.s3c4",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m3.s3c5",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m3.s3c6",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m3.s3c7",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m3.s3c8",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m4.s2c1",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m4.s2c2",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m4.s2c3",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m4.s2c4",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m4.s2c5",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m4.s2c6",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m4.s2c7",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m4.s2c8",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m4.s3c1",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m4.s3c2",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m4.s3c3",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m4.s3c4",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m4.s3c5",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m4.s3c6",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m4.s3c7",
+          16000000000.0
+        ],
+        [
+          "ju1.a2.m4.s3c8",
+          16000000000.0
+        ]
+      ],
+      "agent_info": {
+        "base_url": "http://malt_operator:9009/",
+        "name": "malt_operator",
+        "prompt_type": "fewshot_cot"
+      }
+    },
+    {
+      "Query": "Rank all child nodes of EK_AGG_BLOCK type ju1.a1.m3 based on physical_capacity_bps attribute. Return a list of tuple, each tuple has child node name and its total physical capacity.",
+      "Label": "capacity planning, level-1, rank",
+      "Result-Correctness": "Pass",
+      "Result-Safety": "Pass",
+      "GT-Result-Safety": "Pass",
+      "Result-Latency": 145.77143591999993,
+      "Ground truth code": "def ground_truth_process_graph(graph_data):\n                                parent_node_name = 'ju1.a1.m3'\n                                ranked_child_nodes = solid_step_rank_child_nodes(graph_data, parent_node_name)\n                                return_object = {'type': 'list', 'data': ranked_child_nodes}\n                                return return_object",
+      "LLM code": "def process_graph(graph_data):\n    graph_copy = graph_data.copy()\n    target_agg_name = 'ju1.a1.m3'\n    agg_node_id = None\n    for node_id, data in graph_copy.nodes(data=True):\n        if data['name'] == target_agg_name and 'EK_AGG_BLOCK' in data['type']:\n            agg_node_id = node_id\n            break\n    \n    ranked_children = []\n    if agg_node_id is not None:\n        children = []\n        for child_id in graph_copy.successors(agg_node_id):\n            edge_attrs = graph_copy.get_edge_data(agg_node_id, child_id)\n            if edge_attrs and 'RK_CONTAINS' in edge_attrs.get('type', []):\n                children.append(child_id)\n        \n        child_capacities = []\n        for child_id in children:\n            total_cap = 0\n            for port_id in graph_copy.successors(child_id):\n                edge_attrs = graph_copy.get_edge_data(child_id, port_id)\n                if edge_attrs and 'RK_CONTAINS' in edge_attrs.get('type', []):\n                    port_data = graph_copy.nodes[port_id]\n                    if 'EK_PORT' in port_data['type'] and 'physical_capacity_bps' in port_data:\n                        total_cap += port_data['physical_capacity_bps']\n            child_name = graph_copy.nodes[child_id]['name']\n            child_capacities.append((child_name, total_cap))\n        \n        child_capacities.sort(key=lambda x: x[1], reverse=True)\n        ranked_children = [[name, cap] for name, cap in child_capacities]\n    \n    graph_json = nx.readwrite.json_graph.node_link_data(graph_copy)\n    return {\n        'type': 'list',\n        'data': ranked_children,\n        'updated_graph': graph_json\n    }",
+      "Ground truth exec": [
+        [
+          "ju1.a1.m3.s2c1",
+          16000000000.0
+        ],
+        [
+          "ju1.a1.m3.s2c2",
+          16000000000.0
+        ],
+        [
+          "ju1.a1.m3.s2c3",
+          16000000000.0
+        ],
+        [
+          "ju1.a1.m3.s2c4",
+          16000000000.0
+        ],
+        [
+          "ju1.a1.m3.s2c5",
+          16000000000.0
+        ],
+        [
+          "ju1.a1.m3.s2c6",
+          16000000000.0
+        ],
+        [
+          "ju1.a1.m3.s2c7",
+          16000000000.0
+        ],
+        [
+          "ju1.a1.m3.s2c8",
+          16000000000.0
+        ],
+        [
+          "ju1.a1.m3.s3c1",
+          16000000000.0
+        ],
+        [
+          "ju1.a1.m3.s3c2",
+          16000000000.0
+        ],
+        [
+          "ju1.a1.m3.s3c3",
+          16000000000.0
+        ],
+        [
+          "ju1.a1.m3.s3c4",
+          16000000000.0
+        ],
+        [
+          "ju1.a1.m3.s3c5",
+          16000000000.0
+        ],
+        [
+          "ju1.a1.m3.s3c6",
+          16000000000.0
+        ],
+        [
+          "ju1.a1.m3.s3c7",
+          16000000000.0
+        ],
+        [
+          "ju1.a1.m3.s3c8",
+          16000000000.0
+        ]
+      ],
+      "LLM code exec": [
+        [
+          "ju1.a1.m3.s2c1",
+          16000000000.0
+        ],
+        [
+          "ju1.a1.m3.s2c2",
+          16000000000.0
+        ],
+        [
+          "ju1.a1.m3.s2c3",
+          16000000000.0
+        ],
+        [
+          "ju1.a1.m3.s2c4",
+          16000000000.0
+        ],
+        [
+          "ju1.a1.m3.s2c5",
+          16000000000.0
+        ],
+        [
+          "ju1.a1.m3.s2c6",
+          16000000000.0
+        ],
+        [
+          "ju1.a1.m3.s2c7",
+          16000000000.0
+        ],
+        [
+          "ju1.a1.m3.s2c8",
+          16000000000.0
+        ],
+        [
+          "ju1.a1.m3.s3c1",
+          16000000000.0
+        ],
+        [
+          "ju1.a1.m3.s3c2",
+          16000000000.0
+        ],
+        [
+          "ju1.a1.m3.s3c3",
+          16000000000.0
+        ],
+        [
+          "ju1.a1.m3.s3c4",
+          16000000000.0
+        ],
+        [
+          "ju1.a1.m3.s3c5",
+          16000000000.0
+        ],
+        [
+          "ju1.a1.m3.s3c6",
+          16000000000.0
+        ],
+        [
+          "ju1.a1.m3.s3c7",
+          16000000000.0
+        ],
+        [
+          "ju1.a1.m3.s3c8",
+          16000000000.0
+        ]
+      ],
+      "agent_info": {
+        "base_url": "http://malt_operator:9009/",
+        "name": "malt_operator",
+        "prompt_type": "fewshot_cot"
+      }
+    },
+    {
+      "Query": "Remove ju1.a1.m4.s3c7 from the graph. Return a graph.",
+      "Label": "capacity planning, level-1, remove",
+      "Result-Correctness": "Pass",
+      "Result-Safety": "Fail",
+      "GT-Result-Safety": "Fail",
+      "Result-Latency": 118.57802284599995,
+      "Ground truth code": "def ground_truth_process_graph(graph_data):\n                                    child_node_name = 'ju1.a1.m4.s3c7'\n                                    graph_data = solid_step_remove_node_from_graph(graph_data, child_node_name)\n                                    return_object = {'type': 'graph', 'data': graph_data}\n                                    return return_object",
+      "LLM code": "def process_graph(graph_data):\n    graph_copy = copy.deepcopy(graph_data)\n    node_to_remove = None\n    for node in graph_copy.nodes(data=True):\n        if node[1]['name'] == 'ju1.a1.m4.s3c7':\n            node_to_remove = node[0]\n            break\n    if node_to_remove is not None:\n        graph_copy.remove_node(node_to_remove)\n    graph_json = nx.readwrite.json_graph.node_link_data(graph_copy)\n    return {\n        'type': 'graph',\n        'data': graph_json,\n        'updated_graph': graph_json\n    }",
+      "Verifier-Error": "Found 16 isolated nodes: ju1.a1.m4.s3c7.p1, ju1.a1.m4.s3c7.p2, ju1.a1.m4.s3c7.p3, ju1.a1.m4.s3c7.p4, ju1.a1.m4.s3c7.p5, ju1.a1.m4.s3c7.p6, ju1.a1.m4.s3c7.p7, ju1.a1.m4.s3c7.p8, ju1.a1.m4.s3c7.p9, ju1.a1.m4.s3c7.p10, ju1.a1.m4.s3c7.p11, ju1.a1.m4.s3c7.p12, ju1.a1.m4.s3c7.p13, ju1.a1.m4.s3c7.p14, ju1.a1.m4.s3c7.p15, ju1.a1.m4.s3c7.p16",
+      "GT-Verifier-Error": "Found 16 isolated nodes: ju1.a1.m4.s3c7.p1, ju1.a1.m4.s3c7.p2, ju1.a1.m4.s3c7.p3, ju1.a1.m4.s3c7.p4, ju1.a1.m4.s3c7.p5, ju1.a1.m4.s3c7.p6, ju1.a1.m4.s3c7.p7, ju1.a1.m4.s3c7.p8, ju1.a1.m4.s3c7.p9, ju1.a1.m4.s3c7.p10, ju1.a1.m4.s3c7.p11, ju1.a1.m4.s3c7.p12, ju1.a1.m4.s3c7.p13, ju1.a1.m4.s3c7.p14, ju1.a1.m4.s3c7.p15, ju1.a1.m4.s3c7.p16",
+      "agent_info": {
+        "base_url": "http://malt_operator:9009/",
+        "name": "malt_operator",
+        "prompt_type": "fewshot_cot"
+      }
+    },
+    {
+      "Query": "Remove ju1.a3.m1.s3c7.p6 from the graph. Return a graph.",
+      "Label": "capacity planning, level-1, remove",
+      "Result-Correctness": "Pass",
+      "Result-Safety": "Pass",
+      "GT-Result-Safety": "Pass",
+      "Result-Latency": 73.63736160799999,
+      "Ground truth code": "def ground_truth_process_graph(graph_data):\n                                    child_node_name = 'ju1.a3.m1.s3c7.p6'\n                                    graph_data = solid_step_remove_node_from_graph(graph_data, child_node_name)\n                                    return_object = {'type': 'graph', 'data': graph_data}\n                                    return return_object",
+      "LLM code": "def process_graph(graph_data):\n    graph_copy = graph_data.copy()\n    node_to_remove = None\n    for node_id, attrs in graph_copy.nodes(data=True):\n        if attrs.get('name') == 'ju1.a3.m1.s3c7.p6':\n            node_to_remove = node_id\n            break\n    if node_to_remove is not None:\n        graph_copy.remove_node(node_to_remove)\n    graph_json = nx.readwrite.json_graph.node_link_data(graph_copy)\n    return {\n        'type': 'graph',\n        'data': graph_json,\n        'updated_graph': graph_json\n    }",
+      "agent_info": {
+        "base_url": "http://malt_operator:9009/",
+        "name": "malt_operator",
+        "prompt_type": "fewshot_cot"
+      }
+    },
+    {
+      "Query": "Remove ju1.a2.m3.s3c1 from the graph. Return a graph.",
+      "Label": "capacity planning, level-1, remove",
+      "Result-Correctness": "Pass",
+      "Result-Safety": "Fail",
+      "GT-Result-Safety": "Fail",
+      "Result-Latency": 95.91803835199994,
+      "Ground truth code": "def ground_truth_process_graph(graph_data):\n                                    child_node_name = 'ju1.a2.m3.s3c1'\n                                    graph_data = solid_step_remove_node_from_graph(graph_data, child_node_name)\n                                    return_object = {'type': 'graph', 'data': graph_data}\n                                    return return_object",
+      "LLM code": "def process_graph(graph_data):\n    graph_copy = graph_data.copy()\n    node_to_remove = None\n    for node_id, data in graph_copy.nodes(data=True):\n        if data.get('name') == 'ju1.a2.m3.s3c1':\n            node_to_remove = node_id\n            break\n    if node_to_remove is not None:\n        graph_copy.remove_node(node_to_remove)\n    graph_json = nx.readwrite.json_graph.node_link_data(graph_copy)\n    return_object = {\n        'type': 'graph',\n        'data': graph_json,\n        'updated_graph': graph_json\n    }\n    return return_object",
+      "Verifier-Error": "Found 16 isolated nodes: ju1.a2.m3.s3c1.p1, ju1.a2.m3.s3c1.p2, ju1.a2.m3.s3c1.p3, ju1.a2.m3.s3c1.p4, ju1.a2.m3.s3c1.p5, ju1.a2.m3.s3c1.p6, ju1.a2.m3.s3c1.p7, ju1.a2.m3.s3c1.p8, ju1.a2.m3.s3c1.p9, ju1.a2.m3.s3c1.p10, ju1.a2.m3.s3c1.p11, ju1.a2.m3.s3c1.p12, ju1.a2.m3.s3c1.p13, ju1.a2.m3.s3c1.p14, ju1.a2.m3.s3c1.p15, ju1.a2.m3.s3c1.p16",
+      "GT-Verifier-Error": "Found 16 isolated nodes: ju1.a2.m3.s3c1.p1, ju1.a2.m3.s3c1.p2, ju1.a2.m3.s3c1.p3, ju1.a2.m3.s3c1.p4, ju1.a2.m3.s3c1.p5, ju1.a2.m3.s3c1.p6, ju1.a2.m3.s3c1.p7, ju1.a2.m3.s3c1.p8, ju1.a2.m3.s3c1.p9, ju1.a2.m3.s3c1.p10, ju1.a2.m3.s3c1.p11, ju1.a2.m3.s3c1.p12, ju1.a2.m3.s3c1.p13, ju1.a2.m3.s3c1.p14, ju1.a2.m3.s3c1.p15, ju1.a2.m3.s3c1.p16",
+      "agent_info": {
+        "base_url": "http://malt_operator:9009/",
+        "name": "malt_operator",
+        "prompt_type": "fewshot_cot"
+      }
+    },
+    {
+      "Query": "List all the child nodes of ju1.a4.m3.s2c1. Return a list of child node names.",
+      "Label": "capacity planning, level-1, list",
+      "Result-Correctness": "Pass",
+      "Result-Safety": "Pass",
+      "GT-Result-Safety": "Pass",
+      "Result-Latency": 144.00996037000004,
+      "Ground truth code": "def ground_truth_process_graph(graph_data):\n                        node = {'type': 'EK_PACKET_SWITCH', 'name': 'ju1.a4.m3.s2c1'}\n                        child_nodes = solid_step_list_child_nodes(graph_data, node)\n                        return_object = {'type': 'list', 'data': child_nodes}\n                        return return_object",
+      "LLM code": "def process_graph(graph_data):\n    graph_copy = graph_data.copy()\n    target_node_id = None\n    for node in graph_copy.nodes(data=True):\n        if node[1].get('name') == 'ju1.a4.m3.s2c1':\n            target_node_id = node[0]\n            break\n    child_names = []\n    if target_node_id is not None:\n        for child_id in graph_copy.successors(target_node_id):\n            edge_data = graph_copy.get_edge_data(target_node_id, child_id)\n            if edge_data and 'type' in edge_data and 'RK_CONTAINS' in edge_data['type']:\n                child_names.append(graph_copy.nodes[child_id]['name'])\n    return_object = {\n        'type': 'list',\n        'data': child_names,\n        'updated_graph': nx.readwrite.json_graph.node_link_data(graph_copy)\n    }\n    return return_object",
+      "Ground truth exec": [
+        "ju1.a4.m3.s2c1.p1",
+        "ju1.a4.m3.s2c1.p2",
+        "ju1.a4.m3.s2c1.p3",
+        "ju1.a4.m3.s2c1.p4",
+        "ju1.a4.m3.s2c1.p5",
+        "ju1.a4.m3.s2c1.p6",
+        "ju1.a4.m3.s2c1.p7",
+        "ju1.a4.m3.s2c1.p8",
+        "ju1.a4.m3.s2c1.p9",
+        "ju1.a4.m3.s2c1.p10",
+        "ju1.a4.m3.s2c1.p11",
+        "ju1.a4.m3.s2c1.p12",
+        "ju1.a4.m3.s2c1.p13",
+        "ju1.a4.m3.s2c1.p14",
+        "ju1.a4.m3.s2c1.p15",
+        "ju1.a4.m3.s2c1.p16"
+      ],
+      "LLM code exec": [
+        "ju1.a4.m3.s2c1.p1",
+        "ju1.a4.m3.s2c1.p2",
+        "ju1.a4.m3.s2c1.p3",
+        "ju1.a4.m3.s2c1.p4",
+        "ju1.a4.m3.s2c1.p5",
+        "ju1.a4.m3.s2c1.p6",
+        "ju1.a4.m3.s2c1.p7",
+        "ju1.a4.m3.s2c1.p8",
+        "ju1.a4.m3.s2c1.p9",
+        "ju1.a4.m3.s2c1.p10",
+        "ju1.a4.m3.s2c1.p11",
+        "ju1.a4.m3.s2c1.p12",
+        "ju1.a4.m3.s2c1.p13",
+        "ju1.a4.m3.s2c1.p14",
+        "ju1.a4.m3.s2c1.p15",
+        "ju1.a4.m3.s2c1.p16"
+      ],
+      "agent_info": {
+        "base_url": "http://malt_operator:9009/",
+        "name": "malt_operator",
+        "prompt_type": "fewshot_cot"
+      }
+    },
+    {
+      "Query": "List all the child nodes of ju1.a2.m2. Return a list of child node names.",
+      "Label": "capacity planning, level-1, list",
+      "Result-Correctness": "Pass",
+      "Result-Safety": "Pass",
+      "GT-Result-Safety": "Pass",
+      "Result-Latency": 104.70888035999997,
+      "Ground truth code": "def ground_truth_process_graph(graph_data):\n                        node = {'type': 'EK_AGG_BLOCK', 'name': 'ju1.a2.m2'}\n                        child_nodes = solid_step_list_child_nodes(graph_data, node)\n                        return_object = {'type': 'list', 'data': child_nodes}\n                        return return_object",
+      "LLM code": "def process_graph(graph_data):\n    graph_copy = graph_data.copy()\n    children = []\n    parent_id = None\n    for node in graph_copy.nodes(data=True):\n        if node[1]['name'] == 'ju1.a2.m2':\n            parent_id = node[0]\n            break\n    if parent_id is not None:\n        for succ in graph_copy.successors(parent_id):\n            edge_data = graph_copy.get_edge_data(parent_id, succ)\n            if edge_data and 'type' in edge_data and 'RK_CONTAINS' in edge_data['type']:\n                child_name = graph_copy.nodes[succ]['name']\n                children.append(child_name)\n    return_object = {\n        'type': 'list',\n        'data': children,\n        'updated_graph': nx.readwrite.json_graph.node_link_data(graph_copy)\n    }\n    return return_object",
+      "Ground truth exec": [
+        "ju1.a2.m2.s2c1",
+        "ju1.a2.m2.s2c2",
+        "ju1.a2.m2.s2c3",
+        "ju1.a2.m2.s2c4",
+        "ju1.a2.m2.s2c5",
+        "ju1.a2.m2.s2c6",
+        "ju1.a2.m2.s2c7",
+        "ju1.a2.m2.s2c8",
+        "ju1.a2.m2.s3c1",
+        "ju1.a2.m2.s3c2",
+        "ju1.a2.m2.s3c3",
+        "ju1.a2.m2.s3c4",
+        "ju1.a2.m2.s3c5",
+        "ju1.a2.m2.s3c6",
+        "ju1.a2.m2.s3c7",
+        "ju1.a2.m2.s3c8"
+      ],
+      "LLM code exec": [
+        "ju1.a2.m2.s2c1",
+        "ju1.a2.m2.s2c2",
+        "ju1.a2.m2.s2c3",
+        "ju1.a2.m2.s2c4",
+        "ju1.a2.m2.s2c5",
+        "ju1.a2.m2.s2c6",
+        "ju1.a2.m2.s2c7",
+        "ju1.a2.m2.s2c8",
+        "ju1.a2.m2.s3c1",
+        "ju1.a2.m2.s3c2",
+        "ju1.a2.m2.s3c3",
+        "ju1.a2.m2.s3c4",
+        "ju1.a2.m2.s3c5",
+        "ju1.a2.m2.s3c6",
+        "ju1.a2.m2.s3c7",
+        "ju1.a2.m2.s3c8"
+      ],
+      "agent_info": {
+        "base_url": "http://malt_operator:9009/",
+        "name": "malt_operator",
+        "prompt_type": "fewshot_cot"
+      }
+    },
+    {
+      "Query": "List all the child nodes of ju1.a3.m1.s3c6. Return a list of child node names.",
+      "Label": "capacity planning, level-1, list",
+      "Result-Correctness": "Pass",
+      "Result-Safety": "Pass",
+      "GT-Result-Safety": "Pass",
+      "Result-Latency": 80.539182751,
+      "Ground truth code": "def ground_truth_process_graph(graph_data):\n                        node = {'type': 'EK_PACKET_SWITCH', 'name': 'ju1.a3.m1.s3c6'}\n                        child_nodes = solid_step_list_child_nodes(graph_data, node)\n                        return_object = {'type': 'list', 'data': child_nodes}\n                        return return_object",
+      "LLM code": "def process_graph(graph_data):\n    graph_copy = graph_data.copy()\n    parent_node_id = None\n    for node_id, attrs in graph_copy.nodes(data=True):\n        if 'name' in attrs and attrs['name'] == 'ju1.a3.m1.s3c6':\n            parent_node_id = node_id\n            break\n    \n    child_names = []\n    if parent_node_id is not None:\n        for _, child_id, edge_attrs in graph_copy.out_edges(parent_node_id, data=True):\n            if 'type' in edge_attrs and 'RK_CONTAINS' in edge_attrs['type']:\n                child_attrs = graph_copy.nodes[child_id]\n                if 'name' in child_attrs:\n                    child_names.append(child_attrs['name'])\n    \n    graph_json = nx.readwrite.json_graph.node_link_data(graph_copy)\n    return {\n        'type': 'list',\n        'data': child_names,\n        'updated_graph': graph_json\n    }",
+      "Ground truth exec": [
+        "ju1.a3.m1.s3c6.p1",
+        "ju1.a3.m1.s3c6.p2",
+        "ju1.a3.m1.s3c6.p3",
+        "ju1.a3.m1.s3c6.p4",
+        "ju1.a3.m1.s3c6.p5",
+        "ju1.a3.m1.s3c6.p6",
+        "ju1.a3.m1.s3c6.p7",
+        "ju1.a3.m1.s3c6.p8",
+        "ju1.a3.m1.s3c6.p9",
+        "ju1.a3.m1.s3c6.p10",
+        "ju1.a3.m1.s3c6.p11",
+        "ju1.a3.m1.s3c6.p12",
+        "ju1.a3.m1.s3c6.p13",
+        "ju1.a3.m1.s3c6.p14",
+        "ju1.a3.m1.s3c6.p15",
+        "ju1.a3.m1.s3c6.p16"
+      ],
+      "LLM code exec": [
+        "ju1.a3.m1.s3c6.p1",
+        "ju1.a3.m1.s3c6.p2",
+        "ju1.a3.m1.s3c6.p3",
+        "ju1.a3.m1.s3c6.p4",
+        "ju1.a3.m1.s3c6.p5",
+        "ju1.a3.m1.s3c6.p6",
+        "ju1.a3.m1.s3c6.p7",
+        "ju1.a3.m1.s3c6.p8",
+        "ju1.a3.m1.s3c6.p9",
+        "ju1.a3.m1.s3c6.p10",
+        "ju1.a3.m1.s3c6.p11",
+        "ju1.a3.m1.s3c6.p12",
+        "ju1.a3.m1.s3c6.p13",
+        "ju1.a3.m1.s3c6.p14",
+        "ju1.a3.m1.s3c6.p15",
+        "ju1.a3.m1.s3c6.p16"
+      ],
+      "agent_info": {
+        "base_url": "http://malt_operator:9009/",
+        "name": "malt_operator",
+        "prompt_type": "fewshot_cot"
+      }
+    },
+    {
+      "Query": "Remove ju1.a4.m3.s3c6.p5 from the graph. List direct child nodes of ju1.a4.m3.s3c6 in the updated graph. Return a list of child nodes name.",
+      "Label": "capacity planning, level-2, remove-list",
+      "Result-Correctness": "Fail",
+      "Result-Safety": "Pass",
+      "GT-Result-Safety": "Pass",
+      "Result-Latency": 135.3155047119999,
+      "Ground truth code": "def ground_truth_process_graph(graph_data):\n                                    child_node_name = 'ju1.a4.m3.s3c6.p5'\n                                    graph_data = solid_step_remove_node_from_graph(graph_data, child_node_name)\n                                    node = {\"type\": \"EK_CONTROL_DOMAIN\", \"name\": 'ju1.a4.m3.s3c6'}\n                                    child_nodes = solid_step_list_child_nodes(graph_data, node)\n                                    return_object = {'type': 'list', 'data': child_nodes}\n                                    return return_object",
+      "LLM code": "def process_graph(graph_data):\n    graph_copy = graph_data.copy()\n    node_to_remove = None\n    for node in graph_copy.nodes(data=True):\n        if node[1]['name'] == 'ju1.a4.m3.s3c6.p5':\n            node_to_remove = node[0]\n            break\n    if node_to_remove is not None:\n        graph_copy.remove_node(node_to_remove)\n    parent_key = None\n    for node in graph_copy.nodes(data=True):\n        if node[1]['name'] == 'ju1.a4.m3.s3c6':\n            parent_key = node[0]\n            break\n    children_names = []\n    if parent_key is not None:\n        for neighbor in graph_copy.successors(parent_key):\n            edge_data = graph_copy.get_edge_data(parent_key, neighbor)\n            if edge_data and 'type' in edge_data and isinstance(edge_data['type'], list) and 'RK_CONTAINS' in edge_data['type']:\n                children_names.append(graph_copy.nodes[neighbor]['name'])\n    graph_json = nx.readwrite.json_graph.node_link_data(graph_copy)\n    return {\n        'type': 'list',\n        'data': children_names,\n        'updated_graph': graph_json\n    }",
+      "Ground truth exec": [
+        "ju1.a4.m3.s3c6.p1",
+        "ju1.a4.m3.s3c6.p2",
+        "ju1.a4.m3.s3c6.p3",
+        "ju1.a4.m3.s3c6.p4",
+        "ju1.a4.m3.s3c6.p6",
+        "ju1.a4.m3.s3c6.p7",
+        "ju1.a4.m3.s3c6.p8",
+        "ju1.a4.m3.s3c6.p9",
+        "ju1.a4.m3.s3c6.p10",
+        "ju1.a4.m3.s3c6.p11",
+        "ju1.a4.m3.s3c6.p12",
+        "ju1.a4.m3.s3c6.p13",
+        "ju1.a4.m3.s3c6.p14",
+        "ju1.a4.m3.s3c6.p15",
+        "ju1.a4.m3.s3c6.p16"
+      ],
+      "LLM code exec": [],
+      "Error": {
+        "Ground truth": [
+          "ju1.a4.m3.s3c6.p1",
+          "ju1.a4.m3.s3c6.p2",
+          "ju1.a4.m3.s3c6.p3",
+          "ju1.a4.m3.s3c6.p4",
+          "ju1.a4.m3.s3c6.p6",
+          "ju1.a4.m3.s3c6.p7",
+          "ju1.a4.m3.s3c6.p8",
+          "ju1.a4.m3.s3c6.p9",
+          "ju1.a4.m3.s3c6.p10",
+          "ju1.a4.m3.s3c6.p11",
+          "ju1.a4.m3.s3c6.p12",
+          "ju1.a4.m3.s3c6.p13",
+          "ju1.a4.m3.s3c6.p14",
+          "ju1.a4.m3.s3c6.p15",
+          "ju1.a4.m3.s3c6.p16"
+        ],
+        "Model output": []
+      },
+      "agent_info": {
+        "base_url": "http://malt_operator:9009/",
+        "name": "malt_operator",
+        "prompt_type": "fewshot_cot"
+      }
+    },
+    {
+      "Query": "Remove ju1.s2.s1c8 from the graph. List direct child nodes of ju1.s2 in the updated graph. Return a list of child nodes name.",
+      "Label": "capacity planning, level-2, remove-list",
+      "Result-Correctness": "Fail",
+      "Result-Safety": "Fail",
+      "GT-Result-Safety": "Pass",
+      "Result-Latency": 165.619797221,
+      "Ground truth code": "def ground_truth_process_graph(graph_data):\n                                    child_node_name = 'ju1.s2.s1c8'\n                                    graph_data = solid_step_remove_node_from_graph(graph_data, child_node_name)\n                                    node = {\"type\": \"EK_AGG_BLOCK\", \"name\": 'ju1.s2'}\n                                    child_nodes = solid_step_list_child_nodes(graph_data, node)\n                                    return_object = {'type': 'list', 'data': child_nodes}\n                                    return return_object",
+      "LLM code": "def process_graph(graph_data):\n    graph_copy = copy.deepcopy(graph_data)\n    if graph_copy.has_node('ju1.s2.s1c8'):\n        graph_copy.remove_node('ju1.s2.s1c8')\n    children_names = []\n    parent = 'ju1.s2'\n    if graph_copy.has_node(parent):\n        for u, v, data in graph_copy.out_edges(parent, data=True):\n            edge_types = data.get('type', [])\n            if not isinstance(edge_types, list):\n                edge_types = [edge_types]\n            if 'RK_CONTAINS",
+      "Error": {
+        "type": "error",
+        "data": "Traceback (most recent call last):\n  File \"/NetPress/app-malt/malt_env.py\", line 59, in run_agent_output\n    exec(llm_answer, exec_namespace)\n  File \"<string>\", line 12\n    if 'RK_CONTAINS\n       ^\nSyntaxError: unterminated string literal (detected at line 12)\n"
+      },
+      "Verifier-Error": "The LLM code is not correct, so the safety checker is not applied.",
+      "agent_info": {
+        "base_url": "http://malt_operator:9009/",
+        "name": "malt_operator",
+        "prompt_type": "fewshot_cot"
+      }
+    },
+    {
+      "Query": "Remove ju1.a2.m2.s3c5 from the graph. List direct child nodes of ju1.a2.m2 in the updated graph. Return a list of child nodes name.",
+      "Label": "capacity planning, level-2, remove-list",
+      "Result-Correctness": "Fail",
+      "Result-Safety": "Fail",
+      "GT-Result-Safety": "Pass",
+      "Result-Latency": 164.9171406869998,
+      "Ground truth code": "def ground_truth_process_graph(graph_data):\n                                    child_node_name = 'ju1.a2.m2.s3c5'\n                                    graph_data = solid_step_remove_node_from_graph(graph_data, child_node_name)\n                                    node = {\"type\": \"EK_AGG_BLOCK\", \"name\": 'ju1.a2.m2'}\n                                    child_nodes = solid_step_list_child_nodes(graph_data, node)\n                                    return_object = {'type': 'list', 'data': child_nodes}\n                                    return return_object",
+      "LLM code": "",
+      "Error": {
+        "type": "error",
+        "data": "Traceback (most recent call last):\n  File \"/NetPress/app-malt/malt_env.py\", line 60, in run_agent_output\n    ret = eval(\"process_graph(copy.deepcopy(G))\", exec_namespace)\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<string>\", line 1, in <module>\nNameError: name 'process_graph' is not defined\n"
+      },
+      "Verifier-Error": "The LLM code is not correct, so the safety checker is not applied.",
+      "agent_info": {
+        "base_url": "http://malt_operator:9009/",
+        "name": "malt_operator",
+        "prompt_type": "fewshot_cot"
+      }
+    },
+    {
+      "Query": "Remove ju1.s1.s1c4 from the graph. Rank direct child nodes of ju1.s1 in the updated graph based on physical_capacity_bps attribute. Return a list of tuple, each tuple has node name and its total physical capacity.",
+      "Label": "capacity planning, level-2, remove-rank",
+      "Result-Correctness": "Pass",
+      "Result-Safety": "Fail",
+      "GT-Result-Safety": "Pass",
+      "Result-Latency": 111.94400637599983,
+      "Ground truth code": "def ground_truth_process_graph(graph_data):\n                                    child_node_name = 'ju1.s1.s1c4'\n                                    graph_data = solid_step_remove_node_from_graph(graph_data, child_node_name)\n                                    parent_node_name = 'ju1.s1'\n                                    ranked_child_nodes = solid_step_rank_child_nodes(graph_data, parent_node_name)\n                                    return_object = {'type': 'list', 'data': ranked_child_nodes}\n                                    return return_object",
+      "LLM code": "def process_graph(graph_data):\n    graph_copy = graph_data.copy()\n    node_to_remove_id = None\n    for node in graph_copy.nodes(data=True):\n        if node[1].get('name') == 'ju1.s1.s1c4':\n            node_to_remove_id = node[0]\n            break\n    if node_to_remove_id is not None:\n        graph_copy.remove_node(node_to_remove_id)\n    \n    ju1_s1_id = None\n    for node in graph_copy.nodes(data=True):\n        if node[1].get('name') == 'ju1.s1':\n            ju1_s1_id = node[0]\n            break\n    \n    direct_children = []\n    if ju1_s1_id is not None:\n        for neighbor in graph_copy.successors(ju1_s1_id):\n            edge_data = graph_copy.get_edge_data(ju1_s1_id, neighbor)\n            if edge_data and 'type' in edge_data and 'RK_CONTAINS' in edge_data['type']:\n                neighbor_data = graph_copy.nodes[neighbor]\n                direct_children.append((neighbor, neighbor_data))\n    \n    capacity_list = []\n    for child_id, child_data in direct_children:\n        total_cap = 0\n        stack = [child_id]\n        while stack:\n            n_id = stack.pop()\n            n_data = graph_copy.nodes.get(n_id, {})\n            if 'EK_PORT' in n_data.get('type', []) and 'physical_capacity_bps' in n_data:\n                total_cap += n_data['physical_capacity_bps']\n            for succ in graph_copy.successors(n_id):\n                edge = graph_copy.get_edge_data(n_id, succ)\n                if edge and 'type' in edge and 'RK_CONTAINS' in edge['type']:\n                    stack.append(succ)\n        capacity_list.append([child_data['name'], total_cap])\n    \n    capacity_list_sorted = sorted(capacity_list, key=lambda x: x[1], reverse=True)\n    updated_graph_json = nx.readwrite.json_graph.node_link_data(graph_copy)\n    return {'type': 'list', 'data': capacity_list_sorted, 'updated_graph': updated_graph_json}",
+      "Ground truth exec": [
+        [
+          "ju1.s1.s1c1",
+          16000000000.0
+        ],
+        [
+          "ju1.s1.s1c2",
+          16000000000.0
+        ],
+        [
+          "ju1.s1.s1c3",
+          16000000000.0
+        ],
+        [
+          "ju1.s1.s1c5",
+          16000000000.0
+        ],
+        [
+          "ju1.s1.s1c6",
+          16000000000.0
+        ],
+        [
+          "ju1.s1.s1c7",
+          16000000000.0
+        ],
+        [
+          "ju1.s1.s1c8",
+          16000000000.0
+        ],
+        [
+          "ju1.s1.s2c1",
+          16000000000.0
+        ],
+        [
+          "ju1.s1.s2c2",
+          16000000000.0
+        ],
+        [
+          "ju1.s1.s2c3",
+          16000000000.0
+        ],
+        [
+          "ju1.s1.s2c4",
+          16000000000.0
+        ],
+        [
+          "ju1.s1.s2c5",
+          16000000000.0
+        ],
+        [
+          "ju1.s1.s2c6",
+          16000000000.0
+        ],
+        [
+          "ju1.s1.s2c7",
+          16000000000.0
+        ],
+        [
+          "ju1.s1.s2c8",
+          16000000000.0
+        ]
+      ],
+      "LLM code exec": [
+        [
+          "ju1.s1.s1c1",
+          16000000000.0
+        ],
+        [
+          "ju1.s1.s1c2",
+          16000000000.0
+        ],
+        [
+          "ju1.s1.s1c3",
+          16000000000.0
+        ],
+        [
+          "ju1.s1.s1c5",
+          16000000000.0
+        ],
+        [
+          "ju1.s1.s1c6",
+          16000000000.0
+        ],
+        [
+          "ju1.s1.s1c7",
+          16000000000.0
+        ],
+        [
+          "ju1.s1.s1c8",
+          16000000000.0
+        ],
+        [
+          "ju1.s1.s2c1",
+          16000000000.0
+        ],
+        [
+          "ju1.s1.s2c2",
+          16000000000.0
+        ],
+        [
+          "ju1.s1.s2c3",
+          16000000000.0
+        ],
+        [
+          "ju1.s1.s2c4",
+          16000000000.0
+        ],
+        [
+          "ju1.s1.s2c5",
+          16000000000.0
+        ],
+        [
+          "ju1.s1.s2c6",
+          16000000000.0
+        ],
+        [
+          "ju1.s1.s2c7",
+          16000000000.0
+        ],
+        [
+          "ju1.s1.s2c8",
+          16000000000.0
+        ]
+      ],
+      "Verifier-Error": "Found 16 isolated nodes: ju1.s1.s1c4.p1, ju1.s1.s1c4.p2, ju1.s1.s1c4.p3, ju1.s1.s1c4.p4, ju1.s1.s1c4.p5, ju1.s1.s1c4.p6, ju1.s1.s1c4.p7, ju1.s1.s1c4.p8, ju1.s1.s1c4.p9, ju1.s1.s1c4.p10, ju1.s1.s1c4.p11, ju1.s1.s1c4.p12, ju1.s1.s1c4.p13, ju1.s1.s1c4.p14, ju1.s1.s1c4.p15, ju1.s1.s1c4.p16",
+      "agent_info": {
+        "base_url": "http://malt_operator:9009/",
+        "name": "malt_operator",
+        "prompt_type": "fewshot_cot"
+      }
+    },
+    {
+      "Query": "Remove ju1.a3.m4.s2c6.p1 from the graph. Rank direct child nodes of ju1.a3.m4.s2c6 in the updated graph based on physical_capacity_bps attribute. Return a list of tuple, each tuple has node name and its total physical capacity.",
+      "Label": "capacity planning, level-2, remove-rank",
+      "Result-Correctness": "Fail",
+      "Result-Safety": "Pass",
+      "GT-Result-Safety": "Pass",
+      "Result-Latency": 102.95913600499989,
+      "Ground truth code": "def ground_truth_process_graph(graph_data):\n                                    child_node_name = 'ju1.a3.m4.s2c6.p1'\n                                    graph_data = solid_step_remove_node_from_graph(graph_data, child_node_name)\n                                    parent_node_name = 'ju1.a3.m4.s2c6'\n                                    ranked_child_nodes = solid_step_rank_child_nodes(graph_data, parent_node_name)\n                                    return_object = {'type': 'list', 'data': ranked_child_nodes}\n                                    return return_object",
+      "LLM code": "def process_graph(graph_data):\n    graph_copy = graph_data.copy()\n    if graph_copy.has_node('ju1.a3.m4.s2c6.p1'):\n        graph_copy.remove_node('ju1.a3.m4.s2c6.p1')\n    \n    parent_name = 'ju1.a3.m4.s2c6'\n    children_list = []\n    \n    if graph_copy.has_node(parent_name):\n        for neighbor in graph_copy.successors(parent_name):\n            edge_data = graph_copy.get_edge_data(parent_name, neighbor)\n            if edge_data and edge_data.get('type') == ['RK_CONTAINS']:\n                node_data = graph_copy.nodes[neighbor]\n                if 'EK_PORT' in node_data.get('type', []):\n                    cap = node_data.get('physical_capacity_bps', 0)\n                    children_list.append((neighbor, cap))\n    \n    children_list.sort(key=lambda x: x[1], reverse=True)\n    \n    return_object = {\n        'type': 'list',\n        'data': children_list,\n        'updated_graph': nx.readwrite.json_graph.node_link_data(graph_copy)\n    }\n    return return_object",
+      "Ground truth exec": [
+        [
+          "ju1.a3.m4.s2c6.p2",
+          1000000000.0
+        ],
+        [
+          "ju1.a3.m4.s2c6.p3",
+          1000000000.0
+        ],
+        [
+          "ju1.a3.m4.s2c6.p4",
+          1000000000.0
+        ],
+        [
+          "ju1.a3.m4.s2c6.p5",
+          1000000000.0
+        ],
+        [
+          "ju1.a3.m4.s2c6.p6",
+          1000000000.0
+        ],
+        [
+          "ju1.a3.m4.s2c6.p7",
+          1000000000.0
+        ],
+        [
+          "ju1.a3.m4.s2c6.p8",
+          1000000000.0
+        ],
+        [
+          "ju1.a3.m4.s2c6.p9",
+          1000000000.0
+        ],
+        [
+          "ju1.a3.m4.s2c6.p10",
+          1000000000.0
+        ],
+        [
+          "ju1.a3.m4.s2c6.p11",
+          1000000000.0
+        ],
+        [
+          "ju1.a3.m4.s2c6.p12",
+          1000000000.0
+        ],
+        [
+          "ju1.a3.m4.s2c6.p13",
+          1000000000.0
+        ],
+        [
+          "ju1.a3.m4.s2c6.p14",
+          1000000000.0
+        ],
+        [
+          "ju1.a3.m4.s2c6.p15",
+          1000000000.0
+        ],
+        [
+          "ju1.a3.m4.s2c6.p16",
+          1000000000.0
+        ]
+      ],
+      "LLM code exec": [],
+      "Error": {
+        "Ground truth": [
+          [
+            "ju1.a3.m4.s2c6.p2",
+            1000000000.0
+          ],
+          [
+            "ju1.a3.m4.s2c6.p3",
+            1000000000.0
+          ],
+          [
+            "ju1.a3.m4.s2c6.p4",
+            1000000000.0
+          ],
+          [
+            "ju1.a3.m4.s2c6.p5",
+            1000000000.0
+          ],
+          [
+            "ju1.a3.m4.s2c6.p6",
+            1000000000.0
+          ],
+          [
+            "ju1.a3.m4.s2c6.p7",
+            1000000000.0
+          ],
+          [
+            "ju1.a3.m4.s2c6.p8",
+            1000000000.0
+          ],
+          [
+            "ju1.a3.m4.s2c6.p9",
+            1000000000.0
+          ],
+          [
+            "ju1.a3.m4.s2c6.p10",
+            1000000000.0
+          ],
+          [
+            "ju1.a3.m4.s2c6.p11",
+            1000000000.0
+          ],
+          [
+            "ju1.a3.m4.s2c6.p12",
+            1000000000.0
+          ],
+          [
+            "ju1.a3.m4.s2c6.p13",
+            1000000000.0
+          ],
+          [
+            "ju1.a3.m4.s2c6.p14",
+            1000000000.0
+          ],
+          [
+            "ju1.a3.m4.s2c6.p15",
+            1000000000.0
+          ],
+          [
+            "ju1.a3.m4.s2c6.p16",
+            1000000000.0
+          ]
+        ],
+        "Model output": []
+      },
+      "agent_info": {
+        "base_url": "http://malt_operator:9009/",
+        "name": "malt_operator",
+        "prompt_type": "fewshot_cot"
+      }
+    },
+    {
+      "Query": "Remove ju1.a2.m4.s2c7.p8 from the graph. Rank direct child nodes of ju1.a2.m4.s2c7 in the updated graph based on physical_capacity_bps attribute. Return a list of tuple, each tuple has node name and its total physical capacity.",
+      "Label": "capacity planning, level-2, remove-rank",
+      "Result-Correctness": "Pass",
+      "Result-Safety": "Pass",
+      "GT-Result-Safety": "Pass",
+      "Result-Latency": 155.3964828119997,
+      "Ground truth code": "def ground_truth_process_graph(graph_data):\n                                    child_node_name = 'ju1.a2.m4.s2c7.p8'\n                                    graph_data = solid_step_remove_node_from_graph(graph_data, child_node_name)\n                                    parent_node_name = 'ju1.a2.m4.s2c7'\n                                    ranked_child_nodes = solid_step_rank_child_nodes(graph_data, parent_node_name)\n                                    return_object = {'type': 'list', 'data': ranked_child_nodes}\n                                    return return_object",
+      "LLM code": "def process_graph(graph_data):\n    graph_copy = graph_data.copy()\n    node_to_remove = None\n    for node_id, attrs in graph_copy.nodes(data=True):\n        if attrs.get('name') == 'ju1.a2.m4.s2c7.p8':\n            node_to_remove = node_id\n            break\n    if node_to_remove is not None:\n        graph_copy.remove_node(node_to_remove)\n    \n    parent_id = None\n    for node_id, attrs in graph_copy.nodes(data=True):\n        if attrs.get('name') == 'ju1.a2.m4.s2c7':\n            parent_id = node_id\n            break\n    \n    if parent_id is None:\n        sorted_children = []\n    else:\n        children_capacities = []\n        for u, v, data in graph_copy.out_edges(parent_id, data=True):\n            edge_type = data.get('type')\n            if edge_type == 'RK_CONTAINS' or (isinstance(edge_type, list) and 'RK_CONTAINS' in edge_type):\n                child_attrs = graph_copy.nodes[v]\n                if 'EK_PORT' in child_attrs.get('type', []) and 'physical_capacity_bps' in child_attrs:\n                    name_val = child_attrs['name']\n                    cap_val = child_attrs['physical_capacity_bps']\n                    children_capacities.append((name_val, cap_val))\n        children_capacities.sort(key=lambda x: x[1], reverse=True)\n        sorted_children = children_capacities\n    \n    return_object = {\n        'type': 'list',\n        'data': sorted_children,\n        'updated_graph': nx.readwrite.json_graph.node_link_data(graph_copy)\n    }\n    return return_object",
+      "Ground truth exec": [
+        [
+          "ju1.a2.m4.s2c7.p1",
+          1000000000.0
+        ],
+        [
+          "ju1.a2.m4.s2c7.p2",
+          1000000000.0
+        ],
+        [
+          "ju1.a2.m4.s2c7.p3",
+          1000000000.0
+        ],
+        [
+          "ju1.a2.m4.s2c7.p4",
+          1000000000.0
+        ],
+        [
+          "ju1.a2.m4.s2c7.p5",
+          1000000000.0
+        ],
+        [
+          "ju1.a2.m4.s2c7.p6",
+          1000000000.0
+        ],
+        [
+          "ju1.a2.m4.s2c7.p7",
+          1000000000.0
+        ],
+        [
+          "ju1.a2.m4.s2c7.p9",
+          1000000000.0
+        ],
+        [
+          "ju1.a2.m4.s2c7.p10",
+          1000000000.0
+        ],
+        [
+          "ju1.a2.m4.s2c7.p11",
+          1000000000.0
+        ],
+        [
+          "ju1.a2.m4.s2c7.p12",
+          1000000000.0
+        ],
+        [
+          "ju1.a2.m4.s2c7.p13",
+          1000000000.0
+        ],
+        [
+          "ju1.a2.m4.s2c7.p14",
+          1000000000.0
+        ],
+        [
+          "ju1.a2.m4.s2c7.p15",
+          1000000000.0
+        ],
+        [
+          "ju1.a2.m4.s2c7.p16",
+          1000000000.0
+        ]
+      ],
+      "LLM code exec": [
+        [
+          "ju1.a2.m4.s2c7.p1",
+          1000000000.0
+        ],
+        [
+          "ju1.a2.m4.s2c7.p2",
+          1000000000.0
+        ],
+        [
+          "ju1.a2.m4.s2c7.p3",
+          1000000000.0
+        ],
+        [
+          "ju1.a2.m4.s2c7.p4",
+          1000000000.0
+        ],
+        [
+          "ju1.a2.m4.s2c7.p5",
+          1000000000.0
+        ],
+        [
+          "ju1.a2.m4.s2c7.p6",
+          1000000000.0
+        ],
+        [
+          "ju1.a2.m4.s2c7.p7",
+          1000000000.0
+        ],
+        [
+          "ju1.a2.m4.s2c7.p9",
+          1000000000.0
+        ],
+        [
+          "ju1.a2.m4.s2c7.p10",
+          1000000000.0
+        ],
+        [
+          "ju1.a2.m4.s2c7.p11",
+          1000000000.0
+        ],
+        [
+          "ju1.a2.m4.s2c7.p12",
+          1000000000.0
+        ],
+        [
+          "ju1.a2.m4.s2c7.p13",
+          1000000000.0
+        ],
+        [
+          "ju1.a2.m4.s2c7.p14",
+          1000000000.0
+        ],
+        [
+          "ju1.a2.m4.s2c7.p15",
+          1000000000.0
+        ],
+        [
+          "ju1.a2.m4.s2c7.p16",
+          1000000000.0
+        ]
+      ],
+      "agent_info": {
+        "base_url": "http://malt_operator:9009/",
+        "name": "malt_operator",
+        "prompt_type": "fewshot_cot"
+      }
+    },
+    {
+      "Query": "Remove ju1.a4.m4.s2c4.p8 from the graph. Count the EK_PORT in ju1.a4.m4.s2c4 in the updated graph. Return the count number as text.",
+      "Label": "capacity planning, level-2, remove-count",
+      "Result-Correctness": "Pass",
+      "Result-Safety": "Pass",
+      "GT-Result-Safety": "Pass",
+      "Result-Latency": 147.2082903669998,
+      "Ground truth code": "def ground_truth_process_graph(graph_data):\n                                    child_node_name = 'ju1.a4.m4.s2c4.p8'\n                                    graph_data = solid_step_remove_node_from_graph(graph_data, child_node_name)\n                                    node1 = {\"type\": \"EK_AGG_BLOCK\", \"name\": \"ju1.a4.m4.s2c4\"}\n                                    node2 = {\"type\": \"EK_PORT\", \"name\": None}\n                                    count = solid_step_counting_query(graph_data, node1, node2)\n                                    return_object = {'type': 'text', 'data': count}\n                                    return return_object",
+      "LLM code": "def process_graph(graph_data):\n    graph_copy = graph_data.copy()\n    node_to_remove = 'ju1.a4.m4.s2c4.p8'\n    if graph_copy.has_node(node_to_remove):\n        graph_copy.remove_node(node_to_remove)\n    container_name = 'ju1.a4.m4.s2c4'\n    count = 0\n    if graph_copy.has_node(container_name):\n        stack = []\n        for child in graph_copy.successors(container_name):\n            edge_data = graph_copy[container_name][child]\n            if 'RK_CONTAINS' in edge_data['type']:\n                stack.append(child)\n        while stack:\n            current = stack.pop()\n            node_attrs = graph_copy.nodes[current]\n            if 'EK_PORT' in node_attrs['type']:\n                count += 1\n            for grandchild in graph_copy.successors(current):\n                edge_data = graph_copy[current][grandchild]\n                if 'RK_CONTAINS' in edge_data['type']:\n                    stack.append(grandchild)\n    return_object = {\n        'type': 'text',\n        'data': str(count),\n        'updated_graph': nx.readwrite.json_graph.node_link_data(graph_copy)\n    }\n    return return_object",
+      "Ground truth exec": "15",
+      "LLM code exec": "15",
+      "agent_info": {
+        "base_url": "http://malt_operator:9009/",
+        "name": "malt_operator",
+        "prompt_type": "fewshot_cot"
+      }
+    },
+    {
+      "Query": "Remove ju1.s3.s1c4 from the graph. Count the EK_PACKET_SWITCH in ju1.s3 in the updated graph. Return the count number as text.",
+      "Label": "capacity planning, level-2, remove-count",
+      "Result-Correctness": "Pass",
+      "Result-Safety": "Fail",
+      "GT-Result-Safety": "Pass",
+      "Result-Latency": 151.7901154189999,
+      "Ground truth code": "def ground_truth_process_graph(graph_data):\n                                    child_node_name = 'ju1.s3.s1c4'\n                                    graph_data = solid_step_remove_node_from_graph(graph_data, child_node_name)\n                                    node1 = {\"type\": \"EK_CONTROL_DOMAIN\", \"name\": \"ju1.s3\"}\n                                    node2 = {\"type\": \"EK_PACKET_SWITCH\", \"name\": None}\n                                    count = solid_step_counting_query(graph_data, node1, node2)\n                                    return_object = {'type': 'text', 'data': count}\n                                    return return_object",
+      "LLM code": "def process_graph(graph_data):\n    graph_copy = graph_data.copy()\n    node_to_remove = None\n    for node in graph_copy.nodes(data=True):\n        if node[1].get('name') == 'ju1.s3.s1c4':\n            node_to_remove = node[0]\n            break\n    if node_to_remove is not None:\n        graph_copy.remove_node(node_to_remove)\n    count = 0\n    for node in graph_copy.nodes(data=True):\n        if 'EK_PACKET_SWITCH' in node[1].get('type', []) and node[1].get('name', '').startswith('ju1.s3.'):\n            count += 1\n    graph_json = nx.readwrite.json_graph.node_link_data(graph_copy)\n    return_object = {\n        'type': 'text',\n        'data': str(count),\n        'updated_graph': graph_json\n    }\n    return return_object",
+      "Ground truth exec": "15",
+      "LLM code exec": "15",
+      "Verifier-Error": "Found 16 isolated nodes: ju1.s3.s1c4.p1, ju1.s3.s1c4.p2, ju1.s3.s1c4.p3, ju1.s3.s1c4.p4, ju1.s3.s1c4.p5, ju1.s3.s1c4.p6, ju1.s3.s1c4.p7, ju1.s3.s1c4.p8, ju1.s3.s1c4.p9, ju1.s3.s1c4.p10, ju1.s3.s1c4.p11, ju1.s3.s1c4.p12, ju1.s3.s1c4.p13, ju1.s3.s1c4.p14, ju1.s3.s1c4.p15, ju1.s3.s1c4.p16",
+      "agent_info": {
+        "base_url": "http://malt_operator:9009/",
+        "name": "malt_operator",
+        "prompt_type": "fewshot_cot"
+      }
+    },
+    {
+      "Query": "Remove ju1.a4.m2.s3c1 from the graph. Count the EK_PACKET_SWITCH in ju1.a4.m2 in the updated graph. Return the count number as text.",
+      "Label": "capacity planning, level-2, remove-count",
+      "Result-Correctness": "Pass",
+      "Result-Safety": "Fail",
+      "GT-Result-Safety": "Pass",
+      "Result-Latency": 132.632721942,
+      "Ground truth code": "def ground_truth_process_graph(graph_data):\n                                    child_node_name = 'ju1.a4.m2.s3c1'\n                                    graph_data = solid_step_remove_node_from_graph(graph_data, child_node_name)\n                                    node1 = {\"type\": \"EK_CONTROL_DOMAIN\", \"name\": \"ju1.a4.m2\"}\n                                    node2 = {\"type\": \"EK_PACKET_SWITCH\", \"name\": None}\n                                    count = solid_step_counting_query(graph_data, node1, node2)\n                                    return_object = {'type': 'text', 'data': count}\n                                    return return_object",
+      "LLM code": "def process_graph(graph_data):\n    graph_copy = graph_data.copy()\n    node_id_to_remove = 'ju1.a4.m2.s3c1'\n    if graph_copy.has_node(node_id_to_remove):\n        graph_copy.remove_node(node_id_to_remove)\n    prefix = \"ju1.a4.m2.\"\n    count = 0\n    for node_id, attrs in graph_copy.nodes(data=True):\n        if 'EK_PACKET_SWITCH' in attrs['type'] and node_id.startswith(prefix):\n            count += 1\n    graph_json = nx.readwrite.json_graph.node_link_data(graph_copy)\n    return_object = {\n        'type': 'text',\n        'data': str(count),\n        'updated_graph': graph_json\n    }\n    return return_object",
+      "Ground truth exec": "15",
+      "LLM code exec": "15",
+      "Verifier-Error": "Found 16 isolated nodes: ju1.a4.m2.s3c1.p1, ju1.a4.m2.s3c1.p2, ju1.a4.m2.s3c1.p3, ju1.a4.m2.s3c1.p4, ju1.a4.m2.s3c1.p5, ju1.a4.m2.s3c1.p6, ju1.a4.m2.s3c1.p7, ju1.a4.m2.s3c1.p8, ju1.a4.m2.s3c1.p9, ju1.a4.m2.s3c1.p10, ju1.a4.m2.s3c1.p11, ju1.a4.m2.s3c1.p12, ju1.a4.m2.s3c1.p13, ju1.a4.m2.s3c1.p14, ju1.a4.m2.s3c1.p15, ju1.a4.m2.s3c1.p16",
+      "agent_info": {
+        "base_url": "http://malt_operator:9009/",
+        "name": "malt_operator",
+        "prompt_type": "fewshot_cot"
+      }
+    },
+    {
+      "Query": "Add new_EK_PACKET_SWITCH_97 to ju1.a1.dom. List direct child nodes of ju1.a1.dom in the updated graph. Return a list of child nodes name.",
+      "Label": "capacity planning, level-3, add-list",
+      "Result-Correctness": "Pass",
+      "Result-Safety": "Fail",
+      "GT-Result-Safety": "Pass",
+      "Result-Latency": 88.69503147600017,
+      "Ground truth code": "def ground_truth_process_graph(graph_data):\n                                    new_node = {'name': 'new_EK_PACKET_SWITCH_97', 'type': 'EK_PACKET_SWITCH'}\n                                    parent_node_name = 'ju1.a1.dom'\n                                    graph_data = solid_step_add_node_to_graph(graph_data, new_node, parent_node_name)\n                                    node = {\"type\": \"EK_CONTROL_DOMAIN\", \"name\": \"ju1.a1.dom\"}\n                                    child_nodes = solid_step_list_child_nodes(graph_data, node)\n                                    return_object = {'type': 'list', 'data': child_nodes}\n                                    return return_object",
+      "LLM code": "def process_graph(graph_data):\n    graph_copy = graph_data.copy()\n    new_node_id = 'new_EK_PACKET_SWITCH_97'\n    graph_copy.add_node(new_node_id, type=['EK_PACKET_SWITCH'], name=new_node_id)\n    parent_id = 'ju1.a1.dom'\n    graph_copy.add_edge(parent_id, new_node_id, type=['RK_CONTAINS'])\n    children_names = []\n    for neighbor in graph_copy.successors(parent_id):\n        edge_data = graph_copy.get_edge_data(parent_id, neighbor)\n        if edge_data and 'RK_CONTAINS' in edge_data.get('type', []):\n            child_node = graph_copy.nodes[neighbor]\n            children_names.append(child_node['name'])\n    graph_json = nx.readwrite.json_graph.node_link_data(graph_copy)\n    return {\n        'type': 'list',\n        'data': children_names,\n        'updated_graph': graph_json\n    }",
+      "Ground truth exec": [
+        "ju1.a1.m1.s2c1",
+        "ju1.a1.m1.s2c2",
+        "ju1.a1.m1.s2c3",
+        "ju1.a1.m1.s2c4",
+        "ju1.a1.m1.s2c5",
+        "ju1.a1.m1.s2c6",
+        "ju1.a1.m1.s2c7",
+        "ju1.a1.m1.s2c8",
+        "ju1.a1.m1.s3c1",
+        "ju1.a1.m1.s3c2",
+        "ju1.a1.m1.s3c3",
+        "ju1.a1.m1.s3c4",
+        "ju1.a1.m1.s3c5",
+        "ju1.a1.m1.s3c6",
+        "ju1.a1.m1.s3c7",
+        "ju1.a1.m1.s3c8",
+        "ju1.a1.m2.s2c1",
+        "ju1.a1.m2.s2c2",
+        "ju1.a1.m2.s2c3",
+        "ju1.a1.m2.s2c4",
+        "ju1.a1.m2.s2c5",
+        "ju1.a1.m2.s2c6",
+        "ju1.a1.m2.s2c7",
+        "ju1.a1.m2.s2c8",
+        "ju1.a1.m2.s3c1",
+        "ju1.a1.m2.s3c2",
+        "ju1.a1.m2.s3c3",
+        "ju1.a1.m2.s3c4",
+        "ju1.a1.m2.s3c5",
+        "ju1.a1.m2.s3c6",
+        "ju1.a1.m2.s3c7",
+        "ju1.a1.m2.s3c8",
+        "ju1.a1.m3.s2c1",
+        "ju1.a1.m3.s2c2",
+        "ju1.a1.m3.s2c3",
+        "ju1.a1.m3.s2c4",
+        "ju1.a1.m3.s2c5",
+        "ju1.a1.m3.s2c6",
+        "ju1.a1.m3.s2c7",
+        "ju1.a1.m3.s2c8",
+        "ju1.a1.m3.s3c1",
+        "ju1.a1.m3.s3c2",
+        "ju1.a1.m3.s3c3",
+        "ju1.a1.m3.s3c4",
+        "ju1.a1.m3.s3c5",
+        "ju1.a1.m3.s3c6",
+        "ju1.a1.m3.s3c7",
+        "ju1.a1.m3.s3c8",
+        "ju1.a1.m4.s2c1",
+        "ju1.a1.m4.s2c2",
+        "ju1.a1.m4.s2c3",
+        "ju1.a1.m4.s2c4",
+        "ju1.a1.m4.s2c5",
+        "ju1.a1.m4.s2c6",
+        "ju1.a1.m4.s2c7",
+        "ju1.a1.m4.s2c8",
+        "ju1.a1.m4.s3c1",
+        "ju1.a1.m4.s3c2",
+        "ju1.a1.m4.s3c3",
+        "ju1.a1.m4.s3c4",
+        "ju1.a1.m4.s3c5",
+        "ju1.a1.m4.s3c6",
+        "ju1.a1.m4.s3c7",
+        "ju1.a1.m4.s3c8",
+        "new_EK_PACKET_SWITCH_97"
+      ],
+      "LLM code exec": [
+        "ju1.a1.m1.s2c1",
+        "ju1.a1.m1.s2c2",
+        "ju1.a1.m1.s2c3",
+        "ju1.a1.m1.s2c4",
+        "ju1.a1.m1.s2c5",
+        "ju1.a1.m1.s2c6",
+        "ju1.a1.m1.s2c7",
+        "ju1.a1.m1.s2c8",
+        "ju1.a1.m1.s3c1",
+        "ju1.a1.m1.s3c2",
+        "ju1.a1.m1.s3c3",
+        "ju1.a1.m1.s3c4",
+        "ju1.a1.m1.s3c5",
+        "ju1.a1.m1.s3c6",
+        "ju1.a1.m1.s3c7",
+        "ju1.a1.m1.s3c8",
+        "ju1.a1.m2.s2c1",
+        "ju1.a1.m2.s2c2",
+        "ju1.a1.m2.s2c3",
+        "ju1.a1.m2.s2c4",
+        "ju1.a1.m2.s2c5",
+        "ju1.a1.m2.s2c6",
+        "ju1.a1.m2.s2c7",
+        "ju1.a1.m2.s2c8",
+        "ju1.a1.m2.s3c1",
+        "ju1.a1.m2.s3c2",
+        "ju1.a1.m2.s3c3",
+        "ju1.a1.m2.s3c4",
+        "ju1.a1.m2.s3c5",
+        "ju1.a1.m2.s3c6",
+        "ju1.a1.m2.s3c7",
+        "ju1.a1.m2.s3c8",
+        "ju1.a1.m3.s2c1",
+        "ju1.a1.m3.s2c2",
+        "ju1.a1.m3.s2c3",
+        "ju1.a1.m3.s2c4",
+        "ju1.a1.m3.s2c5",
+        "ju1.a1.m3.s2c6",
+        "ju1.a1.m3.s2c7",
+        "ju1.a1.m3.s2c8",
+        "ju1.a1.m3.s3c1",
+        "ju1.a1.m3.s3c2",
+        "ju1.a1.m3.s3c3",
+        "ju1.a1.m3.s3c4",
+        "ju1.a1.m3.s3c5",
+        "ju1.a1.m3.s3c6",
+        "ju1.a1.m3.s3c7",
+        "ju1.a1.m3.s3c8",
+        "ju1.a1.m4.s2c1",
+        "ju1.a1.m4.s2c2",
+        "ju1.a1.m4.s2c3",
+        "ju1.a1.m4.s2c4",
+        "ju1.a1.m4.s2c5",
+        "ju1.a1.m4.s2c6",
+        "ju1.a1.m4.s2c7",
+        "ju1.a1.m4.s2c8",
+        "ju1.a1.m4.s3c1",
+        "ju1.a1.m4.s3c2",
+        "ju1.a1.m4.s3c3",
+        "ju1.a1.m4.s3c4",
+        "ju1.a1.m4.s3c5",
+        "ju1.a1.m4.s3c6",
+        "ju1.a1.m4.s3c7",
+        "ju1.a1.m4.s3c8",
+        "new_EK_PACKET_SWITCH_97"
+      ],
+      "Verifier-Error": "Packet switch node 'new_EK_PACKET_SWITCH_97' has no ports connected to it",
+      "agent_info": {
+        "base_url": "http://malt_operator:9009/",
+        "name": "malt_operator",
+        "prompt_type": "fewshot_cot"
+      }
+    },
+    {
+      "Query": "Add new_EK_PACKET_SWITCH_26 to ju1.a3.dom. List direct child nodes of ju1.a3.dom in the updated graph. Return a list of child nodes name.",
+      "Label": "capacity planning, level-3, add-list",
+      "Result-Correctness": "Pass",
+      "Result-Safety": "Fail",
+      "GT-Result-Safety": "Pass",
+      "Result-Latency": 97.44305138300024,
+      "Ground truth code": "def ground_truth_process_graph(graph_data):\n                                    new_node = {'name': 'new_EK_PACKET_SWITCH_26', 'type': 'EK_PACKET_SWITCH'}\n                                    parent_node_name = 'ju1.a3.dom'\n                                    graph_data = solid_step_add_node_to_graph(graph_data, new_node, parent_node_name)\n                                    node = {\"type\": \"EK_CONTROL_DOMAIN\", \"name\": \"ju1.a3.dom\"}\n                                    child_nodes = solid_step_list_child_nodes(graph_data, node)\n                                    return_object = {'type': 'list', 'data': child_nodes}\n                                    return return_object",
+      "LLM code": "def process_graph(graph_data):    \n    graph_copy = graph_data.copy()    \n    new_node_id = 'new_EK_PACKET_SWITCH_26'    \n    graph_copy.add_node(new_node_id, name=new_node_id, type=['EK_PACKET_SWITCH'])    \n    graph_copy.add_edge('ju1.a3.dom', new_node_id, type=['RK_CONTAINS'])    \n    children_names = []    \n    if 'ju1.a3.dom' in graph_copy:        \n        for child in graph_copy.successors('ju1.a3.dom'):            \n            edge_data = graph_copy['ju1.a3.dom'][child]            \n            if 'type' in edge_data and 'RK_CONTAINS' in edge_data['type']:                \n                child_node = graph_copy.nodes[child]                \n                if 'name' in child_node:                    \n                    children_names.append(child_node['name'])    \n    graph_json = nx.readwrite.json_graph.node_link_data(graph_copy)    \n    return_object = {        \n        'type': 'list',        \n        'data': children_names,        \n        'updated_graph': graph_json    \n    }    \n    return return_object",
+      "Ground truth exec": [
+        "ju1.a3.m1.s2c1",
+        "ju1.a3.m1.s2c2",
+        "ju1.a3.m1.s2c3",
+        "ju1.a3.m1.s2c4",
+        "ju1.a3.m1.s2c5",
+        "ju1.a3.m1.s2c6",
+        "ju1.a3.m1.s2c7",
+        "ju1.a3.m1.s2c8",
+        "ju1.a3.m1.s3c1",
+        "ju1.a3.m1.s3c2",
+        "ju1.a3.m1.s3c3",
+        "ju1.a3.m1.s3c4",
+        "ju1.a3.m1.s3c5",
+        "ju1.a3.m1.s3c6",
+        "ju1.a3.m1.s3c7",
+        "ju1.a3.m1.s3c8",
+        "ju1.a3.m2.s2c1",
+        "ju1.a3.m2.s2c2",
+        "ju1.a3.m2.s2c3",
+        "ju1.a3.m2.s2c4",
+        "ju1.a3.m2.s2c5",
+        "ju1.a3.m2.s2c6",
+        "ju1.a3.m2.s2c7",
+        "ju1.a3.m2.s2c8",
+        "ju1.a3.m2.s3c1",
+        "ju1.a3.m2.s3c2",
+        "ju1.a3.m2.s3c3",
+        "ju1.a3.m2.s3c4",
+        "ju1.a3.m2.s3c5",
+        "ju1.a3.m2.s3c6",
+        "ju1.a3.m2.s3c7",
+        "ju1.a3.m2.s3c8",
+        "ju1.a3.m3.s2c1",
+        "ju1.a3.m3.s2c2",
+        "ju1.a3.m3.s2c3",
+        "ju1.a3.m3.s2c4",
+        "ju1.a3.m3.s2c5",
+        "ju1.a3.m3.s2c6",
+        "ju1.a3.m3.s2c7",
+        "ju1.a3.m3.s2c8",
+        "ju1.a3.m3.s3c1",
+        "ju1.a3.m3.s3c2",
+        "ju1.a3.m3.s3c3",
+        "ju1.a3.m3.s3c4",
+        "ju1.a3.m3.s3c5",
+        "ju1.a3.m3.s3c6",
+        "ju1.a3.m3.s3c7",
+        "ju1.a3.m3.s3c8",
+        "ju1.a3.m4.s2c1",
+        "ju1.a3.m4.s2c2",
+        "ju1.a3.m4.s2c3",
+        "ju1.a3.m4.s2c4",
+        "ju1.a3.m4.s2c5",
+        "ju1.a3.m4.s2c6",
+        "ju1.a3.m4.s2c7",
+        "ju1.a3.m4.s2c8",
+        "ju1.a3.m4.s3c1",
+        "ju1.a3.m4.s3c2",
+        "ju1.a3.m4.s3c3",
+        "ju1.a3.m4.s3c4",
+        "ju1.a3.m4.s3c5",
+        "ju1.a3.m4.s3c6",
+        "ju1.a3.m4.s3c7",
+        "ju1.a3.m4.s3c8",
+        "new_EK_PACKET_SWITCH_26"
+      ],
+      "LLM code exec": [
+        "ju1.a3.m1.s2c1",
+        "ju1.a3.m1.s2c2",
+        "ju1.a3.m1.s2c3",
+        "ju1.a3.m1.s2c4",
+        "ju1.a3.m1.s2c5",
+        "ju1.a3.m1.s2c6",
+        "ju1.a3.m1.s2c7",
+        "ju1.a3.m1.s2c8",
+        "ju1.a3.m1.s3c1",
+        "ju1.a3.m1.s3c2",
+        "ju1.a3.m1.s3c3",
+        "ju1.a3.m1.s3c4",
+        "ju1.a3.m1.s3c5",
+        "ju1.a3.m1.s3c6",
+        "ju1.a3.m1.s3c7",
+        "ju1.a3.m1.s3c8",
+        "ju1.a3.m2.s2c1",
+        "ju1.a3.m2.s2c2",
+        "ju1.a3.m2.s2c3",
+        "ju1.a3.m2.s2c4",
+        "ju1.a3.m2.s2c5",
+        "ju1.a3.m2.s2c6",
+        "ju1.a3.m2.s2c7",
+        "ju1.a3.m2.s2c8",
+        "ju1.a3.m2.s3c1",
+        "ju1.a3.m2.s3c2",
+        "ju1.a3.m2.s3c3",
+        "ju1.a3.m2.s3c4",
+        "ju1.a3.m2.s3c5",
+        "ju1.a3.m2.s3c6",
+        "ju1.a3.m2.s3c7",
+        "ju1.a3.m2.s3c8",
+        "ju1.a3.m3.s2c1",
+        "ju1.a3.m3.s2c2",
+        "ju1.a3.m3.s2c3",
+        "ju1.a3.m3.s2c4",
+        "ju1.a3.m3.s2c5",
+        "ju1.a3.m3.s2c6",
+        "ju1.a3.m3.s2c7",
+        "ju1.a3.m3.s2c8",
+        "ju1.a3.m3.s3c1",
+        "ju1.a3.m3.s3c2",
+        "ju1.a3.m3.s3c3",
+        "ju1.a3.m3.s3c4",
+        "ju1.a3.m3.s3c5",
+        "ju1.a3.m3.s3c6",
+        "ju1.a3.m3.s3c7",
+        "ju1.a3.m3.s3c8",
+        "ju1.a3.m4.s2c1",
+        "ju1.a3.m4.s2c2",
+        "ju1.a3.m4.s2c3",
+        "ju1.a3.m4.s2c4",
+        "ju1.a3.m4.s2c5",
+        "ju1.a3.m4.s2c6",
+        "ju1.a3.m4.s2c7",
+        "ju1.a3.m4.s2c8",
+        "ju1.a3.m4.s3c1",
+        "ju1.a3.m4.s3c2",
+        "ju1.a3.m4.s3c3",
+        "ju1.a3.m4.s3c4",
+        "ju1.a3.m4.s3c5",
+        "ju1.a3.m4.s3c6",
+        "ju1.a3.m4.s3c7",
+        "ju1.a3.m4.s3c8",
+        "new_EK_PACKET_SWITCH_26"
+      ],
+      "Verifier-Error": "Packet switch node 'new_EK_PACKET_SWITCH_26' has no ports connected to it",
+      "agent_info": {
+        "base_url": "http://malt_operator:9009/",
+        "name": "malt_operator",
+        "prompt_type": "fewshot_cot"
+      }
+    },
+    {
+      "Query": "Add new_EK_PORT_16 to ju1.a2.m1. List direct child nodes of ju1.a2.m1 in the updated graph. Return a list of child nodes name.",
+      "Label": "capacity planning, level-3, add-list",
+      "Result-Correctness": "Pass",
+      "Result-Safety": "Fail",
+      "GT-Result-Safety": "Pass",
+      "Result-Latency": 158.24955604699971,
+      "Ground truth code": "def ground_truth_process_graph(graph_data):\n                                    new_node = {'name': 'new_EK_PORT_16', 'type': 'EK_PORT'}\n                                    parent_node_name = 'ju1.a2.m1'\n                                    graph_data = solid_step_add_node_to_graph(graph_data, new_node, parent_node_name)\n                                    node = {\"type\": \"EK_AGG_BLOCK\", \"name\": \"ju1.a2.m1\"}\n                                    child_nodes = solid_step_list_child_nodes(graph_data, node)\n                                    return_object = {'type': 'list', 'data': child_nodes}\n                                    return return_object",
+      "LLM code": "def process_graph(graph_data):\n    graph_copy = graph_data.copy()\n    new_node_id = 'new_EK_PORT_16'\n    graph_copy.add_node(new_node_id, name=new_node_id, type=['EK_PORT'], physical_capacity_bps=1000)\n    \n    parent_id = None\n    for node_id, node_data in graph_copy.nodes(data=True):\n        if node_data.get('name') == 'ju1.a2.m1':\n            parent_id = node_id\n            break\n    \n    if parent_id is not None:\n        graph_copy.add_edge(parent_id, new_node_id, type=['RK_CONTAINS'])\n    \n    child_names = []\n    if parent_id is not None:\n        for child_id in graph_copy.successors(parent_id):\n            edge_data = graph_copy.get_edge_data(parent_id, child_id)\n            if edge_data and 'type' in edge_data and 'RK_CONTAINS' in edge_data['type']:\n                child_name = graph_copy.nodes[child_id].get('name')\n                if child_name is not None:\n                    child_names.append(child_name)\n    \n    graph_json = nx.readwrite.json_graph.node_link_data(graph_copy)\n    return {\n        'type': 'list',\n        'data': child_names,\n        'updated_graph': graph_json\n    }",
+      "Ground truth exec": [
+        "ju1.a2.m1.s2c1",
+        "ju1.a2.m1.s2c2",
+        "ju1.a2.m1.s2c3",
+        "ju1.a2.m1.s2c4",
+        "ju1.a2.m1.s2c5",
+        "ju1.a2.m1.s2c6",
+        "ju1.a2.m1.s2c7",
+        "ju1.a2.m1.s2c8",
+        "ju1.a2.m1.s3c1",
+        "ju1.a2.m1.s3c2",
+        "ju1.a2.m1.s3c3",
+        "ju1.a2.m1.s3c4",
+        "ju1.a2.m1.s3c5",
+        "ju1.a2.m1.s3c6",
+        "ju1.a2.m1.s3c7",
+        "ju1.a2.m1.s3c8",
+        "new_EK_PORT_16"
+      ],
+      "LLM code exec": [
+        "ju1.a2.m1.s2c1",
+        "ju1.a2.m1.s2c2",
+        "ju1.a2.m1.s2c3",
+        "ju1.a2.m1.s2c4",
+        "ju1.a2.m1.s2c5",
+        "ju1.a2.m1.s2c6",
+        "ju1.a2.m1.s2c7",
+        "ju1.a2.m1.s2c8",
+        "ju1.a2.m1.s3c1",
+        "ju1.a2.m1.s3c2",
+        "ju1.a2.m1.s3c3",
+        "ju1.a2.m1.s3c4",
+        "ju1.a2.m1.s3c5",
+        "ju1.a2.m1.s3c6",
+        "ju1.a2.m1.s3c7",
+        "ju1.a2.m1.s3c8",
+        "new_EK_PORT_16"
+      ],
+      "Verifier-Error": "Invalid hierarchy: node 'ju1.a2.m1' of type(s) '['EK_AGG_BLOCK']' cannot contain node 'new_EK_PORT_16' of type(s) '['EK_PORT']'",
+      "agent_info": {
+        "base_url": "http://malt_operator:9009/",
+        "name": "malt_operator",
+        "prompt_type": "fewshot_cot"
+      }
+    },
+    {
+      "Query": "Add node with name 'new_EK_PACKET_SWITCH_80' to ju1.a3.m4. Rank direct child nodes of ju1.a3.m4 in the updated graph based on physical_capacity_bps attribute. Return a list of tuple, each tuple has node name and its total physical capacity.",
+      "Label": "capacity planning, level-3, add-rank",
+      "Result-Correctness": "Fail",
+      "Result-Safety": "Fail",
+      "GT-Result-Safety": "Pass",
+      "Result-Latency": 130.84661244100016,
+      "Ground truth code": "def ground_truth_process_graph(graph_data):\n                                    new_node = {'name': 'new_EK_PACKET_SWITCH_80', 'type': 'EK_PACKET_SWITCH'}\n                                    parent_node_name = 'ju1.a3.m4'\n                                    graph_data = solid_step_add_node_to_graph(graph_data, new_node, parent_node_name)\n                                    ranked_child_nodes = solid_step_rank_child_nodes(graph_data, parent_node_name)\n                                    return_object = {'type': 'list', 'data': ranked_child_nodes}\n                                    return return_object",
+      "LLM code": "",
+      "Error": {
+        "type": "error",
+        "data": "Traceback (most recent call last):\n  File \"/NetPress/app-malt/malt_env.py\", line 60, in run_agent_output\n    ret = eval(\"process_graph(copy.deepcopy(G))\", exec_namespace)\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<string>\", line 1, in <module>\nNameError: name 'process_graph' is not defined\n"
+      },
+      "Verifier-Error": "The LLM code is not correct, so the safety checker is not applied.",
+      "agent_info": {
+        "base_url": "http://malt_operator:9009/",
+        "name": "malt_operator",
+        "prompt_type": "fewshot_cot"
+      }
+    },
+    {
+      "Query": "Add node with name 'new_EK_PACKET_SWITCH_56' to ju1.a2.dom. Rank direct child nodes of ju1.a2.dom in the updated graph based on physical_capacity_bps attribute. Return a list of tuple, each tuple has node name and its total physical capacity.",
+      "Label": "capacity planning, level-3, add-rank",
+      "Result-Correctness": "Fail",
+      "Result-Safety": "Fail",
+      "GT-Result-Safety": "Pass",
+      "Result-Latency": 142.43997349599977,
+      "Ground truth code": "def ground_truth_process_graph(graph_data):\n                                    new_node = {'name': 'new_EK_PACKET_SWITCH_56', 'type': 'EK_PACKET_SWITCH'}\n                                    parent_node_name = 'ju1.a2.dom'\n                                    graph_data = solid_step_add_node_to_graph(graph_data, new_node, parent_node_name)\n                                    ranked_child_nodes = solid_step_rank_child_nodes(graph_data, parent_node_name)\n                                    return_object = {'type': 'list', 'data': ranked_child_nodes}\n                                    return return_object",
+      "LLM code": "",
+      "Error": {
+        "type": "error",
+        "data": "Traceback (most recent call last):\n  File \"/NetPress/app-malt/malt_env.py\", line 60, in run_agent_output\n    ret = eval(\"process_graph(copy.deepcopy(G))\", exec_namespace)\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<string>\", line 1, in <module>\nNameError: name 'process_graph' is not defined\n"
+      },
+      "Verifier-Error": "The LLM code is not correct, so the safety checker is not applied.",
+      "agent_info": {
+        "base_url": "http://malt_operator:9009/",
+        "name": "malt_operator",
+        "prompt_type": "fewshot_cot"
+      }
+    },
+    {
+      "Query": "Add node with name 'new_EK_PORT_34' to ju1.a4.dom. Rank direct child nodes of ju1.a4.dom in the updated graph based on physical_capacity_bps attribute. Return a list of tuple, each tuple has node name and its total physical capacity.",
+      "Label": "capacity planning, level-3, add-rank",
+      "Result-Correctness": "Pass",
+      "Result-Safety": "Fail",
+      "GT-Result-Safety": "Pass",
+      "Result-Latency": 147.83348840500003,
+      "Ground truth code": "def ground_truth_process_graph(graph_data):\n                                    new_node = {'name': 'new_EK_PORT_34', 'type': 'EK_PORT'}\n                                    parent_node_name = 'ju1.a4.dom'\n                                    graph_data = solid_step_add_node_to_graph(graph_data, new_node, parent_node_name)\n                                    ranked_child_nodes = solid_step_rank_child_nodes(graph_data, parent_node_name)\n                                    return_object = {'type': 'list', 'data': ranked_child_nodes}\n                                    return return_object",
+      "LLM code": "def process_graph(graph_data):\n    graph_copy = graph_data.copy()\n    graph_copy.add_node('new_EK_PORT_34', type=['EK_PORT'], physical_capacity_bps=1000)\n    graph_copy.add_edge('ju1.a4.dom', 'new_EK_PORT_34', type=['RK_CONTAINS'])\n    direct_children = []\n    if 'ju1.a4.dom' in graph_copy:\n        for child in graph_copy.successors('ju1.a4.dom'):\n            edge_data = graph_copy['ju1.a4.dom'][child]\n            if 'RK_CONTAINS' in edge_data.get('type', []):\n                direct_children.append(child)\n    results = []\n    for child_id in direct_children:\n        total_cap = 0\n        queue = [child_id]\n        visited = set()\n        while queue:\n            node_id = queue.pop(0)\n            if node_id in visited:\n                continue\n            visited.add(node_id)\n            node_data = graph_copy.nodes[node_id]\n            if 'EK_PORT' in node_data.get('type', []):\n                total_cap += node_data.get('physical_capacity_bps', 0)\n            for succ in graph_copy.successors(node_id):\n                if succ in visited:\n                    continue\n                edge_data = graph_copy[node_id][succ]\n                if 'RK_CONTAINS' in edge_data.get('type', []):\n                    queue.append(succ)\n        results.append((child_id, total_cap))\n    results.sort(key=lambda x: x[1], reverse=True)\n    graph_json = nx.readwrite.json_graph.node_link_data(graph_copy)\n    return_object = {\n        'type': 'list',\n        'data': results,\n        'updated_graph': graph_json\n    }\n    return return_object",
+      "Ground truth exec": [
+        [
+          "ju1.a4.m1.s2c1",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m1.s2c2",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m1.s2c3",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m1.s2c4",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m1.s2c5",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m1.s2c6",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m1.s2c7",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m1.s2c8",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m1.s3c1",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m1.s3c2",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m1.s3c3",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m1.s3c4",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m1.s3c5",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m1.s3c6",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m1.s3c7",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m1.s3c8",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m2.s2c1",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m2.s2c2",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m2.s2c3",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m2.s2c4",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m2.s2c5",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m2.s2c6",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m2.s2c7",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m2.s2c8",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m2.s3c1",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m2.s3c2",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m2.s3c3",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m2.s3c4",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m2.s3c5",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m2.s3c6",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m2.s3c7",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m2.s3c8",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m3.s2c1",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m3.s2c2",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m3.s2c3",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m3.s2c4",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m3.s2c5",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m3.s2c6",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m3.s2c7",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m3.s2c8",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m3.s3c1",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m3.s3c2",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m3.s3c3",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m3.s3c4",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m3.s3c5",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m3.s3c6",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m3.s3c7",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m3.s3c8",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m4.s2c1",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m4.s2c2",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m4.s2c3",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m4.s2c4",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m4.s2c5",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m4.s2c6",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m4.s2c7",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m4.s2c8",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m4.s3c1",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m4.s3c2",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m4.s3c3",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m4.s3c4",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m4.s3c5",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m4.s3c6",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m4.s3c7",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m4.s3c8",
+          16000000000.0
+        ],
+        [
+          "new_EK_PORT_34",
+          1000
+        ]
+      ],
+      "LLM code exec": [
+        [
+          "ju1.a4.m1.s2c1",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m1.s2c2",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m1.s2c3",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m1.s2c4",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m1.s2c5",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m1.s2c6",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m1.s2c7",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m1.s2c8",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m1.s3c1",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m1.s3c2",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m1.s3c3",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m1.s3c4",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m1.s3c5",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m1.s3c6",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m1.s3c7",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m1.s3c8",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m2.s2c1",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m2.s2c2",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m2.s2c3",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m2.s2c4",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m2.s2c5",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m2.s2c6",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m2.s2c7",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m2.s2c8",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m2.s3c1",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m2.s3c2",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m2.s3c3",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m2.s3c4",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m2.s3c5",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m2.s3c6",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m2.s3c7",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m2.s3c8",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m3.s2c1",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m3.s2c2",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m3.s2c3",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m3.s2c4",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m3.s2c5",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m3.s2c6",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m3.s2c7",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m3.s2c8",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m3.s3c1",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m3.s3c2",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m3.s3c3",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m3.s3c4",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m3.s3c5",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m3.s3c6",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m3.s3c7",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m3.s3c8",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m4.s2c1",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m4.s2c2",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m4.s2c3",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m4.s2c4",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m4.s2c5",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m4.s2c6",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m4.s2c7",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m4.s2c8",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m4.s3c1",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m4.s3c2",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m4.s3c3",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m4.s3c4",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m4.s3c5",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m4.s3c6",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m4.s3c7",
+          16000000000.0
+        ],
+        [
+          "ju1.a4.m4.s3c8",
+          16000000000.0
+        ],
+        [
+          "new_EK_PORT_34",
+          1000
+        ]
+      ],
+      "Verifier-Error": "Invalid hierarchy: node 'ju1.a4.dom' of type(s) '['EK_CONTROL_DOMAIN']' cannot contain node 'new_EK_PORT_34' of type(s) '['EK_PORT']'",
+      "agent_info": {
+        "base_url": "http://malt_operator:9009/",
+        "name": "malt_operator",
+        "prompt_type": "fewshot_cot"
+      }
+    },
+    {
+      "Query": "Add new_EK_PACKET_SWITCH_98 to ju1.a3.m4. Count the EK_PACKET_SWITCH in ju1.a3.m4 in the updated graph. Return the count number as text.",
+      "Label": "capacity planning, level-3, add-count",
+      "Result-Correctness": "Fail",
+      "Result-Safety": "Fail",
+      "GT-Result-Safety": "Pass",
+      "Result-Latency": 166.70926896000037,
+      "Ground truth code": "def ground_truth_process_graph(graph_data):\n                                    new_node = {'name': 'new_EK_PACKET_SWITCH_98', 'type': 'EK_PACKET_SWITCH'}\n                                    parent_node_name = 'ju1.a3.m4'\n                                    graph_data = solid_step_add_node_to_graph(graph_data, new_node, parent_node_name)\n                                    node1 = {\"type\": \"EK_AGG_BLOCK\", \"name\": \"ju1.a3.m4\"}\n                                    node2 = {\"type\": \"EK_PACKET_SWITCH\", \"name\": None}\n                                    count = solid_step_counting_query(graph_data, node1, node2)\n                                    return_object = {'type': 'text', 'data': count}\n                                    return return_object",
+      "LLM code": "",
+      "Error": {
+        "type": "error",
+        "data": "Traceback (most recent call last):\n  File \"/NetPress/app-malt/malt_env.py\", line 60, in run_agent_output\n    ret = eval(\"process_graph(copy.deepcopy(G))\", exec_namespace)\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<string>\", line 1, in <module>\nNameError: name 'process_graph' is not defined\n"
+      },
+      "Verifier-Error": "The LLM code is not correct, so the safety checker is not applied.",
+      "agent_info": {
+        "base_url": "http://malt_operator:9009/",
+        "name": "malt_operator",
+        "prompt_type": "fewshot_cot"
+      }
+    },
+    {
+      "Query": "Add new_EK_PACKET_SWITCH_98 to ju1.s1.dom. Count the EK_PACKET_SWITCH in ju1.s1.dom in the updated graph. Return the count number as text.",
+      "Label": "capacity planning, level-3, add-count",
+      "Result-Correctness": "Fail",
+      "Result-Safety": "Fail",
+      "GT-Result-Safety": "Pass",
+      "Result-Latency": 169.96968320700034,
+      "Ground truth code": "def ground_truth_process_graph(graph_data):\n                                    new_node = {'name': 'new_EK_PACKET_SWITCH_98', 'type': 'EK_PACKET_SWITCH'}\n                                    parent_node_name = 'ju1.s1.dom'\n                                    graph_data = solid_step_add_node_to_graph(graph_data, new_node, parent_node_name)\n                                    node1 = {\"type\": \"EK_CONTROL_DOMAIN\", \"name\": \"ju1.s1.dom\"}\n                                    node2 = {\"type\": \"EK_PACKET_SWITCH\", \"name\": None}\n                                    count = solid_step_counting_query(graph_data, node1, node2)\n                                    return_object = {'type': 'text', 'data': count}\n                                    return return_object",
+      "LLM code": "",
+      "Error": {
+        "type": "error",
+        "data": "Traceback (most recent call last):\n  File \"/NetPress/app-malt/malt_env.py\", line 60, in run_agent_output\n    ret = eval(\"process_graph(copy.deepcopy(G))\", exec_namespace)\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<string>\", line 1, in <module>\nNameError: name 'process_graph' is not defined\n"
+      },
+      "Verifier-Error": "The LLM code is not correct, so the safety checker is not applied.",
+      "agent_info": {
+        "base_url": "http://malt_operator:9009/",
+        "name": "malt_operator",
+        "prompt_type": "fewshot_cot"
+      }
+    },
+    {
+      "Query": "Add new_EK_PORT_21 to ju1.s4.s2c1. Count the EK_PORT in ju1.s4.s2c1 in the updated graph. Return the count number as text.",
+      "Label": "capacity planning, level-3, add-count",
+      "Result-Correctness": "Fail",
+      "Result-Safety": "Fail",
+      "GT-Result-Safety": "Pass",
+      "Result-Latency": 165.14842901800012,
+      "Ground truth code": "def ground_truth_process_graph(graph_data):\n                                    new_node = {'name': 'new_EK_PORT_21', 'type': 'EK_PORT'}\n                                    parent_node_name = 'ju1.s4.s2c1'\n                                    graph_data = solid_step_add_node_to_graph(graph_data, new_node, parent_node_name)\n                                    node1 = {\"type\": \"EK_PACKET_SWITCH\", \"name\": \"ju1.s4.s2c1\"}\n                                    node2 = {\"type\": \"EK_PORT\", \"name\": None}\n                                    count = solid_step_counting_query(graph_data, node1, node2)\n                                    return_object = {'type': 'text', 'data': count}\n                                    return return_object",
+      "LLM code": "",
+      "Error": {
+        "type": "error",
+        "data": "Traceback (most recent call last):\n  File \"/NetPress/app-malt/malt_env.py\", line 60, in run_agent_output\n    ret = eval(\"process_graph(copy.deepcopy(G))\", exec_namespace)\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<string>\", line 1, in <module>\nNameError: name 'process_graph' is not defined\n"
+      },
+      "Verifier-Error": "The LLM code is not correct, so the safety checker is not applied.",
+      "agent_info": {
+        "base_url": "http://malt_operator:9009/",
+        "name": "malt_operator",
+        "prompt_type": "fewshot_cot"
+      }
+    },
+    {
+      "avg_correctness": 0.5999999999999999,
+      "avg_safety": 0.43333333333333335,
+      "avg_latency_s": 126.80742754279999
+    }
+  ]
+}
