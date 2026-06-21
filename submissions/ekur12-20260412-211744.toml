@@ -1,0 +1,28 @@
+[green_agent]
+agentbeats_id = "019ba416-0462-7cf2-86f0-bf85123df8a4"
+env = { LOG_LEVEL = "INFO" }
+
+[[participants]]
+agentbeats_id = "019ba44f-9d1f-7ff3-8fbe-35c4ecfa40b2"
+name = "malt_operator"
+env = {
+    OPENAI_API_KEY = "${NEBIUS_API_KEY}",
+    OPENAI_API_BASE = "https://api.tokenfactory.nebius.com/v1/",
+    MODEL_NAME = "openai/Qwen/Qwen3-Coder-480B-A35B-Instruct"
+}
+
+[config]
+# Prompt strategy for the agent. Options: "zeroshot_base", "zeroshot_cot", "fewshot_base", "fewshot_cot"
+prompt_type = "zeroshot_base"
+
+# Levels of complexity to generate queries for. Available options: "level1", "level2", "level3".
+complexity_level = ["level1", "level2", "level3"]
+
+# Number of queries to generate for each level of complexity
+num_queries = 3
+
+# DO NOT MODIFY BELOW THIS LINE.
+output_dir = "dump"
+output_file = "query_output.jsonl"
+benchmark_path = "assessment_queries.jsonl"
+regenerate_query = true
