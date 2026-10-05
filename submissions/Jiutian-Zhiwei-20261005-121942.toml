@@ -1,0 +1,34 @@
+[green_agent]
+agentbeats_id = "019ba4cb-2f71-7583-a69b-07e1c4329428"
+env = { LOG_LEVEL = "INFO" }
+
+[[participants]]
+agentbeats_id = "01a0ebee-a405-7841-862b-e6a977f1dec3"
+name = "k8s_operator"
+[participants.env]
+    API_KEY = "${DEEPSEEK_API_KEY}"
+    API_BASE = "https://api.deepseek.com"
+    MODEL_NAME = "openai/deepseek-flash"
+
+[config]
+# Prompt strategy for the agent. Options: "zeroshot_base", "zeroshot_cot", "fewshot_base", "fewshot_cot"
+prompt_type = "fewshot_base"
+
+# Number of queries to generate for each error type (15 error types total)
+num_queries = 1
+
+# Maximum number of iterations the agent can take to resolve a given K8s network policy issue.
+max_iterations = 10
+
+# DO NOT MODIFY BELOW THIS LINE.
+benchmark_path = "assessment_error_config.json"
+output_dir = "dump"
+microservice_dir = "/microservices-demo"
+regenerate_config = true
+# submit trigger
+
+# retrigger after actions enabled
+
+# retrigger with curl fix
+
+# retrigger with v2 agent (P0 prompt+postprocess, P1 stateful history) 2026-10-05_1807
